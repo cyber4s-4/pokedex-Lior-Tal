@@ -33,6 +33,12 @@ gulp.task('index', () => {
     .pipe(gulp.dest('./dist'));
 });
 
+// Transfers icons
+gulp.task('icons', () => {
+  return gulp.src('./src/icons/*')
+    .pipe(gulp.dest('./dist/icons'));
+});
+
 // Browser Sync
 gulp.task('browser-sync', () => {
   browserSync.init({
@@ -44,7 +50,7 @@ gulp.task('browser-sync', () => {
 
 // Browser Sync live reload
 gulp.task('browser-sync-watch', () => {
-  gulp.watch('./dist/styles.css').on('change', browserSync.reload);
+  gulp.watch('./dist/style.css').on('change', browserSync.reload);
   gulp.watch('./dist/app.js').on('change', browserSync.reload);
   gulp.watch('./dist/index.html').on('change', browserSync.reload);
 });
@@ -81,6 +87,7 @@ gulp.task('default', gulp.series(
   'start',
   'scss',
   'index',
+  'icons',
   'tsc',
   'build',
   gulp.parallel(
