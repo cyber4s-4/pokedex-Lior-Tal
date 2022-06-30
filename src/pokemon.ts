@@ -1,23 +1,30 @@
+import { PokeData } from "./pokeData"
+
 export default class Pokemon {
-    data: any;
-    parent: HTMLUListElement;
-    constructor(data: Object) {
+    data: PokeData;
+    parent: HTMLElement;
+    // parent: HTMLUListElement;
+    constructor(data: PokeData, parentElement: HTMLElement) {
         this.data = data;
-        this.parent = document.getElementById("details-list") as HTMLUListElement;
+        this.parent = parentElement;
     }
 
     renderPokemon() {
-        let container = this.parent
+        this.parent.innerHTML = "";
+
+        let pokemonUI = document.createElement("ul") as HTMLUListElement;
+        pokemonUI.setAttribute("id","details-list");
+        pokemonUI.classList.add("details-list");
 
         let image = document.createElement("img") as HTMLImageElement;
         let pokemonImg = this.data.sprites.front_default;
         image.src = pokemonImg;
         image.classList.add("pokemon-img")
-        container.appendChild(image)
+        pokemonUI.appendChild(image)
 
         let detailsContainer = document.createElement("div")
         detailsContainer.classList.add("details-container")
-        container.appendChild(detailsContainer)
+        pokemonUI.appendChild(detailsContainer)
 
         let height = document.createElement("li") as HTMLLIElement;
         height.classList.add("height");
@@ -68,5 +75,7 @@ export default class Pokemon {
             itemList.textContent = ability
             abilitiesList.appendChild(itemList)
         }
+
+        this.parent.appendChild(pokemonUI);
     }
 }
