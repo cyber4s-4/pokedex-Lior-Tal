@@ -1,4 +1,4 @@
-## Pokedex Task
+## Pokédex Task
 
 In this task you will build your own pokédex!
 

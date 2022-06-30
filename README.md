@@ -10,4 +10,11 @@
 
 # Lior:
 
+## Landing hero page:
+* Front page + design (Figma)
+
 # Tal:
+
+## Search:
+* Autofill
+* Surprise me function
