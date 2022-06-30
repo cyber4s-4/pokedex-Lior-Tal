@@ -29,7 +29,7 @@ gulp.task('scss', () => {
 
 // Transfers index
 gulp.task('index', () => {
-  return gulp.src(['./src/index.html', './src/favicon.ico'])
+  return gulp.src(['./src/*.html', './src/favicon.ico'])
     .pipe(gulp.dest('./dist'));
 });
 
@@ -37,6 +37,12 @@ gulp.task('index', () => {
 gulp.task('icons', () => {
   return gulp.src('./src/icons/*')
     .pipe(gulp.dest('./dist/icons'));
+});
+
+// Transfers images
+gulp.task('images', () => {
+  return gulp.src('./src/img/*')
+    .pipe(gulp.dest('./dist/img'));
 });
 
 // Browser Sync
@@ -50,9 +56,9 @@ gulp.task('browser-sync', () => {
 
 // Browser Sync live reload
 gulp.task('browser-sync-watch', () => {
-  gulp.watch('./dist/style.css').on('change', browserSync.reload);
+  gulp.watch('./dist/*.css').on('change', browserSync.reload);
   gulp.watch('./dist/app.js').on('change', browserSync.reload);
-  gulp.watch('./dist/index.html').on('change', browserSync.reload);
+  gulp.watch('./dist/*.html').on('change', browserSync.reload);
 });
 
 // Watch scss files
@@ -62,7 +68,7 @@ gulp.task('watch-scss', () => {
 
 // Watch html files
 gulp.task('watch-html', () => {
-  return gulp.watch('./src/index.html', gulp.series('index'));
+  return gulp.watch('./src/*.html', gulp.series('index'));
 });
 
 // Watch tsc files
@@ -88,6 +94,7 @@ gulp.task('default', gulp.series(
   'scss',
   'index',
   'icons',
+  'images',
   'tsc',
   'build',
   gulp.parallel(
