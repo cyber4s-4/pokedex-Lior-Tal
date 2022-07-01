@@ -1,23 +1,34 @@
-import { PokeData } from "./pokeData"
+import { PokeData, Ability, Type } from "./pokeData"
 
-export default class Pokemon {
-    data: PokeData;
-    parent: HTMLElement;
-    // parent: HTMLUListElement;
-    constructor(data: PokeData, parentElement: HTMLElement) {
-        this.data = data;
+export interface customData {
+    img: string;
+    height: number;
+    weight: number;
+    types: Type[];
+    abilities: Ability[];
+}
+
+export class Pokemon {
+    name: string;
+    parent: HTMLElement | undefined;
+    customData: customData;
+    constructor(name: string, customData: customData, parentElement?: HTMLElement) {
+        this.name = name;
         this.parent = parentElement;
+        this.customData = customData;
     }
 
     renderPokemon() {
-        this.parent.innerHTML = "";
+        if (this.parent !== undefined) {
+            this.parent.innerHTML = "";
+        }
 
         let pokemonUI = document.createElement("ul") as HTMLUListElement;
-        pokemonUI.setAttribute("id","details-list");
+        pokemonUI.setAttribute("id", "details-list");
         pokemonUI.classList.add("details-list");
 
         let image = document.createElement("img") as HTMLImageElement;
-        let pokemonImg = this.data.sprites.front_default;
+        let pokemonImg = this.customData.img;
         image.src = pokemonImg;
         image.classList.add("pokemon-img")
         pokemonUI.appendChild(image)
@@ -28,12 +39,12 @@ export default class Pokemon {
 
         let height = document.createElement("li") as HTMLLIElement;
         height.classList.add("height");
-        height.textContent = `Height: ${this.data.height}`;
+        height.textContent = `Height: ${this.customData.height}`;
         detailsContainer.appendChild(height)
 
         let weight = document.createElement("li") as HTMLLIElement;
         weight.classList.add("weight");
-        weight.textContent = `Weight: ${this.data.weight}`;
+        weight.textContent = `Weight: ${this.customData.weight}`;
         detailsContainer.appendChild(weight)
 
         let type = document.createElement("li") as HTMLLIElement;
@@ -45,7 +56,7 @@ export default class Pokemon {
         let typesList = document.createElement("ul") as HTMLUListElement
         typesList.id = "type-list"
         type.appendChild(typesList)
-        for (const typeName of this.data.types) {
+        for (const typeName of this.customData.types) {
             types.push(typeName.type.name);
         }
         for (const type of types) {
@@ -67,7 +78,7 @@ export default class Pokemon {
         let abilitiesList = document.createElement("ul") as HTMLUListElement
         abilitiesList.id = "ability-list"
         allAbilities.appendChild(abilitiesList)
-        for (const ability of this.data.abilities) {
+        for (const ability of this.customData.abilities) {
             abilities.push(ability.ability.name);
         }
         for (const ability of abilities) {
@@ -76,6 +87,11 @@ export default class Pokemon {
             abilitiesList.appendChild(itemList)
         }
 
-        this.parent.appendChild(pokemonUI);
+        if(this.parent!== undefined){ this.parent.appendChild(pokemonUI); }
+    }
+    renderAtParent(parent: HTMLElement){
+        this.parent = parent;
+        this.renderPokemon();
+        this.parent = undefined;
     }
 }
