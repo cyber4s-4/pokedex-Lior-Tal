@@ -19,6 +19,7 @@ body {
 
 .container-right {
     height: 100vh;
+    margin-right: 3vw;
     .banner {
         height: 100%;
         .banner-img {
@@ -31,53 +32,237 @@ body {
     width: 100%;
     .background-circle {
         position: absolute;
-        left: -31.25%;
-        right: 68.75%;
-        top: -43.95%;
-        bottom: 56.05%;
+        left: -102vw;
+        right: 57vw;
+        top: -52vh;
+        bottom: 39vh;
         background: radial-gradient(35.95% 35.95% at 56.85% 55.75%, #5a33b2 0%, rgba(90, 51, 178, 0) 100%);
         filter: blur(45px);
     }
 
     .title {
+        margin: 0;
         position: absolute;
-        left: 2.85%;
-        right: 36.11%;
-        top: 1.25%;
-        bottom: 74.92%;
-        font-family: "Luckiest Guy";
-        font-style: normal;
+        left: 3vw;
+        top: 1vh;
+        font-family: "Abril Fatface", cursive;
         font-weight: 400;
         width: 55%;
-        font-size: 7.5rem;
+        font-size: 16px;
+        font-size: 6vw;
         color: #ffffff;
     }
 
     .discover {
         .btn {
             position: absolute;
-            left: 2.91%;
-            right: 71.25%;
-            top: 55%;
-            bottom: 39.75%;
-            width: 373px;
-            height: 138px;
+            left: 3vw;
+            top: 41vh;
+            width: calc(150px + 18vw);
+            height: calc(10px + 12vh);
             border: none;
-            border-bottom: 10px solid #9421a3;
-            border-radius: 46px;
-            background-image: url("./img/Group\ 1.png");
-            box-shadow: 0 5px 10px #e523ff;
+            border-bottom: 9px solid #9421a3;
+            border-radius: 60px;
+            background-color: #f1b6f8;
+            box-shadow: 0 4px 10px #e523ff;
+            font-family: "Press Start 2P", cursive;
+            text-align: center;
+            font-size: calc(10px + 1.2vw);
             &:active {
-                transform: translateY(5px);
+                transform: translateY(4px);
                 border-bottom: none;
+            }
+
+            a {
+                color: black;
+                text-decoration: none;
             }
         }
 
         .pokeball {
             position: absolute;
-            left: 40.91%;
-            top: 41%;
-            bottom: 39.75%;
+            left: 45vw;
+            top: 18vh;
+        }
+    }
+
+    .featured {
+        position: absolute;
+        display: flex;
+        flex-direction: column;
+        bottom: 5vh;
+        left: 7vh;
+        width: 65vw;
+
+        .featured-title {
+            font-family: "Abril Fatface", cursive;
+            font-weight: 400;
+            color: #ffffff;
+            font-size: 3vw;
+            margin: 0;
+        }
+
+        .featured-pokemon-container {
+            margin-top: 2vh;
+            display: flex;
+            justify-content: space-between;
+            .featured-pokemon {
+                width: 20vw;
+                height: 20vh;
+                background-color: #ffffff;
+                border-radius: 30px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                .pokemon-img {
+                    height: 100%;
+                    width: 50%;
+                }
+                .description {
+                    position: relative;
+                    width: 50%;
+                    height: 100%;
+                    text-align: center;
+                    margin-right: 2vw;
+
+                    .pokemon-name {
+                        margin-top: 3vh;
+                        font-size: 1.5vw;
+                    }
+
+                    .type-container {
+                        width: 100%;
+                        display: flex;
+                        justify-content: space-around;
+
+                        .ground {
+                            border-radius: 50px;
+                            background: #da7c4d;
+                            height: 40px;
+                            width: 40px;
+                        }
+                        
+                        .rock {
+                            border-radius: 50px;
+                            background: #c9bb8a;
+                            height: 40px;
+                            width: 40px;
+                        }
+                        
+                        .bug {
+                            background: #92bc2c;
+                            border-radius: 50px;
+                            height: 40px;
+                            width: 40px;
+                        }
+                        
+                        .dark {
+                            background: #595761;
+                            border-radius: 50px;
+                            height: 40px;
+                            width: 40px;
+                        }
+                        
+                        .dragon {
+                            background: #0c69c8;
+                            border-radius: 50px;
+                            height: 40px;
+                            width: 40px;
+                        }
+                        
+                        .electric {
+                            background: #f2d94e;
+                            border-radius: 50px;
+                            height: 40px;
+                            width: 40px;
+                        }
+                        
+                        .fire {
+                            background: #fba54c;
+                            border-radius: 50px;
+                            height: 40px;
+                            width: 40px;
+                        }
+                        
+                        .fairy {
+                            background: #ee90e6;
+                            border-radius: 50px;
+                            height: 40px;
+                            width: 40px;
+                        }
+                        
+                        .fighting {
+                            background: #d3425f;
+                            border-radius: 50px;
+                            height: 40px;
+                            width: 40px;
+                        }
+                        
+                        .flying {
+                            background: #a1bbec;
+                            border-radius: 50px;
+                            height: 40px;
+                            width: 40px;
+                        }
+                        
+                        .ghost {
+                            background: #5f6dbc;
+                            border-radius: 50px;
+                            height: 40px;
+                            width: 40px;
+                        }
+                        
+                        .grass {
+                            background: #5fbd58;
+                            border-radius: 50px;
+                            height: 40px;
+                            width: 40px;
+                        }
+                        
+                        .ice {
+                            background: #75d0c1;
+                            border-radius: 50px;
+                            height: 40px;
+                            width: 40px;
+                        }
+                        
+                        .normal {
+                            background: #a0a29f;
+                            border-radius: 50px;
+                            height: 40px;
+                            width: 40px;
+                        }
+                        
+                        .poison {
+                            background: #b763cf;
+                            border-radius: 50px;
+                            height: 40px;
+                            width: 40px;
+                        }
+                        
+                        .psychic {
+                            background: #fa8581;
+                            border-radius: 50px;
+                            height: 40px;
+                            width: 40px;
+                        }
+                        
+                        .steel {
+                            background: #5695a3;
+                            border-radius: 50px;
+                            height: 40px;
+                            width: 40px;
+                        }
+                        
+                        .water {
+                            background: #539ddf;
+                            border-radius: 50px;
+                            height: 40px;
+                            width: 40px;
+                        }
+                    }
+                }
+            }
         }
     }
 }
