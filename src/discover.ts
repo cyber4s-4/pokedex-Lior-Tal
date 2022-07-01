@@ -1,3 +1,20 @@
+import { Pokemon, customData } from "./pokemon";
+import { PokeData } from "./pokeData";
+import { checkDataExists, setData, getData } from "./localStorage"
+import { surpriseMe, sortPokemonData } from "./app";
+
+/**
+ * discover.ts is used by discover.html ("Discover page")
+ * discover.ts renders Pokemon information in the UI, wether by search
+ * or by "Surprise me!" button.
+ */
+
+/**
+ * searchRender() occurs on each 'Search' click
+ * Searches for a match on the database for the user's input
+ * Renders the found Pokemon object's UI component
+ * If unfound - gives relevant alert
+ */
 function searchRender(pokemonArray: Pokemon[]) {
     // Parent element
     const parentElement = document.getElementById("pokemon-container") as HTMLElement;
@@ -11,7 +28,7 @@ function searchRender(pokemonArray: Pokemon[]) {
     description.innerHTML = "";
 
     let foundIndicator = false;
-
+    
     // Searching by name
     for (const pokemon of pokemonArray) {
         // console.log(pokemonData.name);
@@ -28,6 +45,9 @@ function searchRender(pokemonArray: Pokemon[]) {
     }
 }
 
+/**
+ * Initiates the discover page UI on "load" (after HTML is loaded)
+ */
 function initUI(pokemonArray: Pokemon[]): void {
     const parentElement = document.getElementById("pokemon-container") as HTMLElement;
 
@@ -64,4 +84,31 @@ function initUI(pokemonArray: Pokemon[]): void {
     banner[0].appendChild(surpriseBtn);
 }
 
-//! supriseMe
+/**
+ * Code that runs after HTML is loaded
+ * 
+ * The data is loaded directly from localStorage, since the user client
+ * already requested the information from Pokemon API in the landing page
+ * In case localStorage is empty (ideally will happen only in development)
+ * the user is sent back to landing page to load load info from API
+ * 
+ * The data is then rendered via initUI()
+ */
+window.addEventListener("load", async () => {
+
+    let pokemonArray: Pokemon[] = [];
+
+    // If data exists, load from localStorage
+    if (checkDataExists()) {
+        console.log("exists");
+        pokemonArray = sortPokemonData(getData());
+        initUI(pokemonArray);
+    }
+    // In case data doesn't exist (not supposed to happen)
+    else {
+        // Go to index.html => load data correctly
+        alert("error, Pokemon information did not load\nClick OK to reload")
+        window.location.href="index.html";
+    }
+
+})

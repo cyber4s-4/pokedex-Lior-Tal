@@ -100,4 +100,15 @@ export class Pokemon {
         this.renderPokemon();
         this.parent = undefined;
     }
+
+    // TODO: Implement renderMini()
+    /**
+     * renderMini(parent) renders a mini component, used by landing page
+     * for "Featured" segment 
+     * */ 
+    renderMini(parent: HTMLElement) {
+        this.parent = parent;
+        // Implement
+        this.parent = undefined;
+    }
 }
