@@ -2,6 +2,7 @@ import { PokeData, Ability, Type } from "./pokeData"
 
 export interface customData {
     img: string;
+    hp: number
     height: number;
     weight: number;
     types: Type[];
@@ -41,6 +42,11 @@ export class Pokemon {
         height.classList.add("height");
         height.textContent = `Height: ${this.customData.height}`;
         detailsContainer.appendChild(height)
+
+        let hp = document.createElement("li") as HTMLLIElement;
+        hp.classList.add("hp");
+        hp.textContent = `HP: ${this.customData.hp}`;
+        detailsContainer.appendChild(hp)
 
         let weight = document.createElement("li") as HTMLLIElement;
         weight.classList.add("weight");

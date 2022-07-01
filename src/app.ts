@@ -69,11 +69,13 @@ function searchRender(pokemonArray: Pokemon[]) {
 // Generates 2 random pokemons
 function surpriseMe(pokemonArray: Pokemon[]): Pokemon[] {
     const firstRandomPokemon = Math.floor(Math.random() * NUM_OF_POKEMONS);
-    const secondRandomPokemon = Math.floor(Math.random() * NUM_OF_POKEMONS)
+    const secondRandomPokemon = Math.floor(Math.random() * NUM_OF_POKEMONS);
+    const thirdRandomPokemon = Math.floor(Math.random() * NUM_OF_POKEMONS)
 
     const randomPokemonArray = [
         pokemonArray[firstRandomPokemon],
-        pokemonArray[secondRandomPokemon]
+        pokemonArray[secondRandomPokemon],
+        pokemonArray[thirdRandomPokemon]
     ]
 
     return randomPokemonArray;
@@ -126,7 +128,7 @@ function initUI(pokemonArray: Pokemon[]): void {
     banner[0].appendChild(surpriseBtn);
 }
 
-window.addEventListener("load", async () => {
+window.addEventListener("load", async () => {    
 
     let pokemonJsonURL = [];
     let pokemonArray: Pokemon[] = [];
@@ -134,15 +136,13 @@ window.addEventListener("load", async () => {
     // If data exists, load from localStorage
     if (checkDataExists()) {
         pokemonArray = sortPokemonData(getData());
-        initUI(pokemonArray);
-        // console.log(pokemonArray);
+        initUI(pokemonArray); //!front UI
     }
     // If non-existent (first run) => fetch from API
     else {
         // First timer? loading time is 2 seconds
         setTimeout(() => {
-            initUI(pokemonArray)
-            console.log(pokemonArray);
+            initUI(pokemonArray) //!front UI
             setData(pokemonArray);
         }, 2000);
 
@@ -158,7 +158,8 @@ window.addEventListener("load", async () => {
                 // Fetching relevant data instead of everything
                 await fetchRawData(pokemonURL).then(pokemonData => {
                     const customData: customData = {
-                        img: pokemonData.sprites.front_default,
+                        img: pokemonData.sprites.other!.dream_world.front_default,
+                        hp: pokemonData.stats[0].base_stat,
                         height: pokemonData.height,
                         weight: pokemonData.weight,
                         types: pokemonData.types,

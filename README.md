@@ -12,15 +12,14 @@
 
 ## Landing hero page:
 * Front page + design (Figma)
+* Pokemon page + design (Figma)
 
 # Tal:
 
 ## Search:
 * Autofill - still TODO
-* Surprise me function- DONE
 ## Etc.
-* Store api data on localStorage - DONE
-
+* Randomize 3 pokemon - only img, name and types
 ### Changes I made:
 * app.ts magic is present in localhost:4000/pokemon.html
 
