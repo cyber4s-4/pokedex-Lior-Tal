@@ -91,6 +91,12 @@ function initUI(pokemonArray: Pokemon[]): void {
  *  */ 
 window.addEventListener("load", async () => {    
 
+    
+    
+    // discoverBtn.addEventListener("click", () => {
+    //     window.location.href="discover.html";
+    // })
+
     let pokemonJsonURL = [];
     let pokemonArray: Pokemon[] = [];
 
@@ -121,6 +127,7 @@ window.addEventListener("load", async () => {
                     const customData: customData = {
                         img: pokemonData.sprites.other!.dream_world.front_default,
                         hp: pokemonData.stats[0].base_stat,
+                        exp: pokemonData.base_experience,
                         height: pokemonData.height,
                         weight: pokemonData.weight,
                         types: pokemonData.types,
@@ -133,4 +140,7 @@ window.addEventListener("load", async () => {
             } catch (e) { console.log(`Error!\n${e}`); }
         }
     }
+
+    let discoverBtn = document.getElementById("btn") as HTMLButtonElement
+    console.log(discoverBtn);
 })

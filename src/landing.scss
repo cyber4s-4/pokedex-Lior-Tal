@@ -1,3 +1,12 @@
+@keyframes rotate {
+    from {
+        -webkit-transform: rotate(0deg);
+    }
+    to {
+        -webkit-transform: rotate(360deg);
+    }
+}
+
 *,
 *::after,
 *::before {
@@ -73,6 +82,10 @@ body {
                 border-bottom: none;
             }
 
+            &:hover {
+                box-shadow: 0 4px 15px #e523ff;
+            }
+
             a {
                 color: black;
                 text-decoration: none;
@@ -83,6 +96,12 @@ body {
             position: absolute;
             left: 45vw;
             top: 18vh;
+            border-radius: 50%;
+
+            &:hover {
+                box-shadow: inset 0 0 10px #9421a3, 5px 5px 50px #9421a3;
+                animation: rotate 2s infinite linear;
+            }
         }
     }
 
@@ -114,6 +133,15 @@ body {
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
+                // transform-style: preserve-3d;
+                // will-change: transform;
+                // transition: transform 0.5s;
+
+                // &:hover {
+                //     transform: translateZ(10px) rotate(10deg) rotateY(30deg);
+                //     box-shadow: 0 3px 10px #e523ff;
+                // }
+
                 .pokemon-img {
                     height: 100%;
                     width: 50%;
@@ -140,125 +168,143 @@ body {
                             background: #da7c4d;
                             height: 40px;
                             width: 40px;
+                            padding: 10px 10px;
                         }
-                        
+
                         .rock {
                             border-radius: 50px;
                             background: #c9bb8a;
                             height: 40px;
                             width: 40px;
+                            padding: 10px 10px;
                         }
-                        
+
                         .bug {
                             background: #92bc2c;
                             border-radius: 50px;
                             height: 40px;
                             width: 40px;
+                            padding: 10px 10px;
                         }
-                        
+
                         .dark {
                             background: #595761;
                             border-radius: 50px;
                             height: 40px;
                             width: 40px;
+                            padding: 10px 10px;
                         }
-                        
+
                         .dragon {
                             background: #0c69c8;
                             border-radius: 50px;
                             height: 40px;
                             width: 40px;
+                            padding: 10px 10px;
                         }
-                        
+
                         .electric {
                             background: #f2d94e;
                             border-radius: 50px;
                             height: 40px;
                             width: 40px;
+                            padding: 10px 10px;
                         }
-                        
+
                         .fire {
                             background: #fba54c;
                             border-radius: 50px;
                             height: 40px;
                             width: 40px;
+                            padding: 10px 10px;
                         }
-                        
+
                         .fairy {
                             background: #ee90e6;
                             border-radius: 50px;
                             height: 40px;
                             width: 40px;
+                            padding: 10px 10px;
                         }
-                        
+
                         .fighting {
                             background: #d3425f;
                             border-radius: 50px;
                             height: 40px;
                             width: 40px;
+                            padding: 10px 10px;
                         }
-                        
+
                         .flying {
                             background: #a1bbec;
                             border-radius: 50px;
                             height: 40px;
                             width: 40px;
+                            padding: 10px 10px;
                         }
-                        
+
                         .ghost {
                             background: #5f6dbc;
                             border-radius: 50px;
                             height: 40px;
                             width: 40px;
+                            padding: 10px 10px;
                         }
-                        
+
                         .grass {
                             background: #5fbd58;
                             border-radius: 50px;
                             height: 40px;
                             width: 40px;
+                            padding: 10px 10px;
                         }
-                        
+
                         .ice {
                             background: #75d0c1;
                             border-radius: 50px;
                             height: 40px;
                             width: 40px;
+                            padding: 10px 10px;
                         }
-                        
+
                         .normal {
                             background: #a0a29f;
                             border-radius: 50px;
                             height: 40px;
                             width: 40px;
+                            padding: 10px 10px;
                         }
-                        
+
                         .poison {
                             background: #b763cf;
                             border-radius: 50px;
                             height: 40px;
                             width: 40px;
+                            padding: 10px 10px;
                         }
-                        
+
                         .psychic {
                             background: #fa8581;
                             border-radius: 50px;
                             height: 40px;
                             width: 40px;
+                            padding: 10px 10px;
                         }
-                        
+
                         .steel {
                             background: #5695a3;
                             border-radius: 50px;
                             height: 40px;
                             width: 40px;
+                            padding: 10px 10px;
                         }
-                        
+
                         .water {
                             background: #539ddf;
                             border-radius: 50px;
                             height: 40px;
                             width: 40px;
+                            padding: 10px 10px;
                         }
                     }
                 }

@@ -2,7 +2,8 @@ import { PokeData, Ability, Type } from "./pokeData"
 
 export interface customData {
     img: string;
-    hp: number
+    hp: number;
+    exp: number;
     height: number;
     weight: number;
     types: Type[];
@@ -18,80 +19,129 @@ export class Pokemon {
         this.parent = parentElement;
         this.customData = customData;
     }
-
+    //TODO: change style - delete container hardcoded
     renderPokemon() {
         if (this.parent !== undefined) {
             this.parent.innerHTML = "";
+            this.parent.style.opacity = "1";
         }
 
-        let pokemonUI = document.createElement("ul") as HTMLUListElement;
-        pokemonUI.setAttribute("id", "details-list");
-        pokemonUI.classList.add("details-list");
+        let pokemonUI = this.parent as HTMLDivElement
 
         let image = document.createElement("img") as HTMLImageElement;
         let pokemonImg = this.customData.img;
         image.src = pokemonImg;
+        console.log(image.src);
+
         image.classList.add("pokemon-img")
         pokemonUI.appendChild(image)
 
         let detailsContainer = document.createElement("div")
-        detailsContainer.classList.add("details-container")
+        detailsContainer.classList.add("pokemon-details")
         pokemonUI.appendChild(detailsContainer)
 
-        let height = document.createElement("li") as HTMLLIElement;
-        height.classList.add("height");
-        height.textContent = `Height: ${this.customData.height}`;
-        detailsContainer.appendChild(height)
+        let pokemonName = document.createElement("h4") as HTMLHeadingElement
+        pokemonName.classList.add("pokemon-name")
+        pokemonName.innerText = this.name;
+        detailsContainer.appendChild(pokemonName)
 
-        let hp = document.createElement("li") as HTMLLIElement;
+        let stats = document.createElement("div") as HTMLDivElement;
+        stats.classList.add("stats")
+        detailsContainer.appendChild(stats)
+
+        let hp = document.createElement("div") as HTMLDivElement;
         hp.classList.add("hp");
         hp.textContent = `HP: ${this.customData.hp}`;
-        detailsContainer.appendChild(hp)
+        stats.appendChild(hp)
 
-        let weight = document.createElement("li") as HTMLLIElement;
+        let exp = document.createElement("div") as HTMLDivElement;
+        exp.classList.add("exp");
+        exp.textContent = `EXP: ${this.customData.exp}`;
+        stats.appendChild(exp)
+
+        let weight = document.createElement("div") as HTMLDivElement;
         weight.classList.add("weight");
         weight.textContent = `Weight: ${this.customData.weight}`;
-        detailsContainer.appendChild(weight)
+        stats.appendChild(weight)
 
-        let type = document.createElement("li") as HTMLLIElement;
-        type.classList.add("type");
-        type.textContent = "Type:";
-        detailsContainer.appendChild(type)
+        let height = document.createElement("div") as HTMLDivElement;
+        height.classList.add("height");
+        height.textContent = `Height: ${this.customData.height}`;
+        stats.appendChild(height)
 
+        let allAttacks = document.createElement("div") as HTMLDivElement;
+        allAttacks.classList.add("pokemon-attacks");
+        allAttacks.textContent = "Attacks:";
+        detailsContainer.appendChild(allAttacks);
+
+        let attacks: string[] = [];
         let types: string[] = [];
-        let typesList = document.createElement("ul") as HTMLUListElement
-        typesList.id = "type-list"
-        type.appendChild(typesList)
+
+        let attacksList = document.createElement("ul") as HTMLUListElement
+        attacksList.classList.add("attacks");
+        detailsContainer.appendChild(attacksList)
+
+        for (const ability of this.customData.abilities) {
+            attacks.push(ability.ability.name);
+        }
+
         for (const typeName of this.customData.types) {
             types.push(typeName.type.name);
         }
+
+        for (const attack of attacks) {
+            let singleAttack = document.createElement("div") as HTMLDivElement;
+            singleAttack.classList.add("attack");
+            let attackName = document.createElement("li") as HTMLLIElement;
+            attackName.textContent = attack;
+            singleAttack.appendChild(attackName);
+            // let attackType = document.createElement("div") as HTMLDivElement;
+            // attackType.classList.add("type-container")
+
+            // for (const type of types) {
+            //     let typeIcon = document.createElement("img") as HTMLImageElement
+            //     typeIcon.src = `./icons/${type}.svg`
+            //     typeIcon.classList.add(`${type}`)
+            //     attackType.appendChild(typeIcon);
+            // }
+
+            // singleAttack.appendChild(attackType)
+            attacksList.appendChild(singleAttack)
+        }
+
+        let typesDiv = document.createElement("div") as HTMLDivElement;
+        typesDiv.classList.add("types");
+        detailsContainer.appendChild(typesDiv);
+
         for (const type of types) {
-            let itemList = document.createElement("li")
-            itemList.textContent = type
-            let typeIcon = document.createElement("img")
+            let typeIcon = document.createElement("img") as HTMLImageElement
             typeIcon.src = `./icons/${type}.svg`
             typeIcon.classList.add(`${type}`)
-            itemList.appendChild(typeIcon)
-            typesList.appendChild(itemList)
+            typeIcon.classList.add("type")
+            typesDiv.appendChild(typeIcon);
         }
 
-        let allAbilities = document.createElement("li") as HTMLLIElement;
-        allAbilities.classList.add("abilities");
-        allAbilities.textContent = "Abilities:";
-        detailsContainer.appendChild(allAbilities);
+        // let type = document.createElement("div") as HTMLDivElement;
+        // type.classList.add("type");
+        // type.textContent = "Type:";
+        // stats.appendChild(type)
 
-        let abilities: string[] = [];
-        let abilitiesList = document.createElement("ul") as HTMLUListElement
-        abilitiesList.id = "ability-list"
-        allAbilities.appendChild(abilitiesList)
-        for (const ability of this.customData.abilities) {
-            abilities.push(ability.ability.name);
-        }
-        for (const ability of abilities) {
-            let itemList = document.createElement("li")
-            itemList.textContent = ability
-            abilitiesList.appendChild(itemList)
-        }
+        // let typesList = document.createElement("ul") as HTMLUListElement
+        // typesList.id = "type-list"
+        // type.appendChild(typesList)
+        // for (const typeName of this.customData.types) {
+        //     types.push(typeName.type.name);
+        // }
+        // for (const type of types) {
+        //     let itemList = document.createElement("li")
+        //     itemList.textContent = type
+        //     let typeIcon = document.createElement("img")
+        //     typeIcon.src = `./icons/${type}.svg`
+        //     typeIcon.classList.add(`${type}`)
+        //     itemList.appendChild(typeIcon)
+        //     typesList.appendChild(itemList)
+        // }
+
 
         if (this.parent !== undefined) { this.parent.appendChild(pokemonUI); }
     }
@@ -107,13 +157,13 @@ export class Pokemon {
      * for "Featured" segment 
      * */
     renderMini(parent: Element, index: number) {
-        
+
         this.parent = parent as HTMLElement;
 
         this.parent.innerHTML = "";
 
         // used for class string
-        const locations = ["","left", "center", "right"];
+        const locations = ["", "left", "center", "right"];
 
 
         let pokemonContainer = document.createElement("div");

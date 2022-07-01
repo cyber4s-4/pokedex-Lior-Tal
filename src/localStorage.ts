@@ -28,6 +28,8 @@ export function getData(): Pokemon[] {
     for (let rawData of jsonArray) {
         const customData = {
             img: rawData.customData.img,
+            hp: rawData.customData.hp,
+            exp: rawData.customData.exp,
             height: rawData.customData.height,
             weight: rawData.customData.weight,
             types: rawData.customData.types,

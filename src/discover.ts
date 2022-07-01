@@ -18,20 +18,20 @@ import { surpriseMe, sortPokemonData } from "./app";
 function searchRender(pokemonArray: Pokemon[]) {
     // Parent element
     const parentElement = document.getElementById("pokemon-container") as HTMLElement;
+    console.log(parentElement);
+    
 
     // Get input text
     let inputEl = document.getElementById("search-box") as HTMLInputElement
     let text = inputEl.value;
 
     // Reset recent render
-    let description = document.getElementById("details-list") as HTMLUListElement
-    description.innerHTML = "";
+    parentElement.innerHTML = "";
 
     let foundIndicator = false;
     
     // Searching by name
-    for (const pokemon of pokemonArray) {
-        // console.log(pokemonData.name);
+    for (const pokemon of pokemonArray) {        
         if (text.toLowerCase() === pokemon.name) {
 
             // Renders at given parentElement
@@ -67,9 +67,7 @@ function initUI(pokemonArray: Pokemon[]): void {
     });
 
     // Surprise button for testing surpriseMe(), renders the second random pokemon
-    let banner = document.getElementsByTagName("h1");
-    let surpriseBtn = document.createElement("button");
-    surpriseBtn.innerText = "Surprise Me! (console.log)"
+    let surpriseBtn = document.getElementById("surprise-btn") as HTMLButtonElement;
 
     // Gives surprise button instructions (log and render 1 out of 2)
     surpriseBtn.addEventListener("click", () => {
@@ -80,8 +78,6 @@ function initUI(pokemonArray: Pokemon[]): void {
         randPokemons[0].parent = document.getElementById("pokemon-container") as HTMLElement;
         randPokemons[0].renderAtParent(parentElement);
     });
-
-    banner[0].appendChild(surpriseBtn);
 }
 
 /**
@@ -110,5 +106,4 @@ window.addEventListener("load", async () => {
         alert("error, Pokemon information did not load\nClick OK to reload")
         window.location.href="index.html";
     }
-
 })
