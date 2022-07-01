@@ -66,6 +66,17 @@ export function sortPokemonData(pokemonArray: Pokemon[]): Pokemon[] {
 function initUI(pokemonArray: Pokemon[]): void {
     const parentElement = document.getElementById("pokemon-container") as HTMLElement;
 
+    const featuredPokemons = surpriseMe(pokemonArray);
+    let count = 1;
+    let locations = ['','left','center','right'];
+
+    
+    for (let featuredPokemon of featuredPokemons) {
+        let tempFPContainer = document.getElementsByClassName(`featured-pokemon ${locations[count]}`);
+        featuredPokemon.renderMini(tempFPContainer[0],count);
+        count++;
+    }
+
 }
 
 /**

@@ -93,9 +93,9 @@ export class Pokemon {
             abilitiesList.appendChild(itemList)
         }
 
-        if(this.parent!== undefined){ this.parent.appendChild(pokemonUI); }
+        if (this.parent !== undefined) { this.parent.appendChild(pokemonUI); }
     }
-    renderAtParent(parent: HTMLElement){
+    renderAtParent(parent: HTMLElement) {
         this.parent = parent;
         this.renderPokemon();
         this.parent = undefined;
@@ -105,10 +105,68 @@ export class Pokemon {
     /**
      * renderMini(parent) renders a mini component, used by landing page
      * for "Featured" segment 
-     * */ 
-    renderMini(parent: HTMLElement) {
-        this.parent = parent;
-        // Implement
+     * */
+    renderMini(parent: Element, index: number) {
+        
+        this.parent = parent as HTMLElement;
+
+        this.parent.innerHTML = "";
+
+        // used for class string
+        const locations = ["","left", "center", "right"];
+
+
+        let pokemonContainer = document.createElement("div");
+        pokemonContainer.classList.add(`featured-pokemon`);
+        pokemonContainer.classList.add(`${locations[index]}`);
+
+        // img
+        let mainImg = document.createElement("img");
+        mainImg.setAttribute("src", this.customData.img);
+        mainImg.classList.add("pokemon-img");
+        pokemonContainer.appendChild(mainImg);
+
+        // description (name + type imgs)
+        let descriptionDiv = document.createElement("div");
+        descriptionDiv.classList.add("description");
+
+        // name h4
+        let name = document.createElement("h4");
+        name.classList.add("pokemon-name");
+        name.innerText = this.name;
+        descriptionDiv.appendChild(name);
+
+        // type container
+        let typeContainerDiv = document.createElement("div");
+        typeContainerDiv.classList.add("type-container");
+
+        let types = this.customData.types;
+
+        // type 1
+        let typeOne = types[0].type.name;
+        let typeImgOne = document.createElement("img");
+        typeImgOne.classList.add(`${typeOne}`);
+        typeImgOne.setAttribute("src", `./icons/${typeOne}.svg`);
+        typeContainerDiv.appendChild(typeImgOne);
+
+        // type 2 (if exists)
+        let typeImgTwo = document.createElement("img");
+
+        if (types.length === 2) {
+            let typeTwo = types[1].type.name;
+            typeImgTwo.classList.add(`${typeTwo}`);
+            typeImgTwo.setAttribute("src", `./icons/${typeTwo}.svg`);
+        } else {
+            typeImgTwo.setAttribute("src", ``);
+        }
+        typeContainerDiv.appendChild(typeImgTwo);
+
+        descriptionDiv.appendChild(typeContainerDiv);
+
+        pokemonContainer.appendChild(descriptionDiv);
+
+        parent.appendChild(pokemonContainer);
+
         this.parent = undefined;
     }
 }
