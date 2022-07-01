@@ -43,8 +43,8 @@ body {
         position: absolute;
         left: 2.85%;
         right: 36.11%;
-        top: 10.25%;
-        bottom: 65.92%;
+        top: 1.25%;
+        bottom: 74.92%;
         font-family: "Luckiest Guy";
         font-style: normal;
         font-weight: 400;
@@ -58,15 +58,26 @@ body {
             position: absolute;
             left: 2.91%;
             right: 71.25%;
-            top: 46.78%;
+            top: 55%;
             bottom: 39.75%;
             width: 373px;
             height: 138px;
             border: none;
+            border-bottom: 10px solid #9421a3;
             border-radius: 46px;
-            &>img {
-                margin: -1px 0 0 -7px;
+            background-image: url("./img/Group\ 1.png");
+            box-shadow: 0 5px 10px #e523ff;
+            &:active {
+                transform: translateY(5px);
+                border-bottom: none;
             }
+        }
+
+        .pokeball {
+            position: absolute;
+            left: 40.91%;
+            top: 41%;
+            bottom: 39.75%;
         }
     }
 }
