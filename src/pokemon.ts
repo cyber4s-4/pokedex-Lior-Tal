@@ -42,7 +42,7 @@ export class Pokemon {
 
         let pokemonName = document.createElement("h4") as HTMLHeadingElement
         pokemonName.classList.add("pokemon-name")
-        pokemonName.innerText = this.name;
+        pokemonName.innerText = this.name[0].toUpperCase() + this.name.slice(1);
         detailsContainer.appendChild(pokemonName)
 
         let stats = document.createElement("div") as HTMLDivElement;
@@ -156,25 +156,17 @@ export class Pokemon {
      * renderMini(parent) renders a mini component, used by landing page
      * for "Featured" segment 
      * */
-    renderMini(parent: Element, index: number) {
+    renderMini(parent: Element) {
 
         this.parent = parent as HTMLElement;
 
         this.parent.innerHTML = "";
 
-        // used for class string
-        const locations = ["", "left", "center", "right"];
-
-
-        let pokemonContainer = document.createElement("div");
-        pokemonContainer.classList.add(`featured-pokemon`);
-        pokemonContainer.classList.add(`${locations[index]}`);
-
         // img
         let mainImg = document.createElement("img");
         mainImg.setAttribute("src", this.customData.img);
         mainImg.classList.add("pokemon-img");
-        pokemonContainer.appendChild(mainImg);
+        this.parent.appendChild(mainImg);
 
         // description (name + type imgs)
         let descriptionDiv = document.createElement("div");
@@ -183,7 +175,7 @@ export class Pokemon {
         // name h4
         let name = document.createElement("h4");
         name.classList.add("pokemon-name");
-        name.innerText = this.name;
+        name.innerText = this.name[0].toUpperCase() + this.name.slice(1);;
         descriptionDiv.appendChild(name);
 
         // type container
@@ -213,9 +205,7 @@ export class Pokemon {
 
         descriptionDiv.appendChild(typeContainerDiv);
 
-        pokemonContainer.appendChild(descriptionDiv);
-
-        parent.appendChild(pokemonContainer);
+        this.parent.appendChild(descriptionDiv);
 
         this.parent = undefined;
     }

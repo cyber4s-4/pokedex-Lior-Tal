@@ -61,10 +61,7 @@ export function sortPokemonData(pokemonArray: Pokemon[]): Pokemon[] {
 /**
  * Initiates the landing page UI on "load" (after HTML is loaded)
  */
-//! TODO: create UI for "featured" segment that uses surpriseMe()
-//! and renders a "mini" component (Pokemon.renderMini())
 function initUI(pokemonArray: Pokemon[]): void {
-    const parentElement = document.getElementById("pokemon-container") as HTMLElement;
 
     const featuredPokemons = surpriseMe(pokemonArray);
     let count = 1;
@@ -73,7 +70,7 @@ function initUI(pokemonArray: Pokemon[]): void {
     
     for (let featuredPokemon of featuredPokemons) {
         let tempFPContainer = document.getElementsByClassName(`featured-pokemon ${locations[count]}`);
-        featuredPokemon.renderMini(tempFPContainer[0],count);
+        featuredPokemon.renderMini(tempFPContainer[0]);
         count++;
     }
 
