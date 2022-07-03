@@ -24,17 +24,18 @@ function searchRender(pokemonArray: Pokemon[]) {
     // Get input text
     let inputEl = document.getElementById("search-box") as HTMLInputElement
     let text = inputEl.value;
-
+    console.log(inputEl.value);
     // Reset recent render
-    parentElement.innerHTML = "";
-
+    
     let foundIndicator = false;
     
     // Searching by name
     for (const pokemon of pokemonArray) {        
         if (text.toLowerCase() === pokemon.name) {
-
+            
             // Renders at given parentElement
+            inputEl.value = "";
+            parentElement.innerHTML = "";
             pokemon.renderAtParent(parentElement);
             foundIndicator = true;
         }
@@ -42,6 +43,7 @@ function searchRender(pokemonArray: Pokemon[]) {
     // Error - not found
     if (!foundIndicator) {
         alert("no such pokemon, try again!");
+        inputEl.value = "";
     }
 }
 
