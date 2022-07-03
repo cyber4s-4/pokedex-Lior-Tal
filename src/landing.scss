@@ -133,14 +133,14 @@ body {
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
-                // transform-style: preserve-3d;
-                // will-change: transform;
-                // transition: transform 0.5s;
+                transform-style: preserve-3d;
+                will-change: transform;
+                transition: transform 0.5s;
 
-                // &:hover {
-                //     transform: translateZ(10px) rotate(10deg) rotateY(30deg);
-                //     box-shadow: 0 3px 10px #e523ff;
-                // }
+                &:hover {
+                    transform: translateZ(10px) rotate(5deg) rotateY(20deg);
+                    box-shadow: 0 3px 10px #e523ff;
+                }
 
                 .pokemon-img {
                     height: 100%;

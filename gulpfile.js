@@ -39,6 +39,12 @@ gulp.task('icons', () => {
     .pipe(gulp.dest('./dist/icons'));
 });
 
+// Transfers audio
+gulp.task('audio', () => {
+  return gulp.src('./src/audio/*')
+    .pipe(gulp.dest('./dist/audio'));
+});
+
 // Transfers images
 gulp.task('images', () => {
   return gulp.src('./src/img/*')
@@ -95,6 +101,7 @@ gulp.task('default', gulp.series(
   'index',
   'icons',
   'images',
+  'audio',
   'tsc',
   'build',
   gulp.parallel(
