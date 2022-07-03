@@ -11,6 +11,10 @@ export function checkDataExists(): boolean {
     return (localStorage.getItem(dataKey) !== null);
 }
 
+export function clearStorage(): void {
+    localStorage.clear()
+}
+
 // This function saves a pokeData array on localStorage
 export function setData(pokemonArray: Pokemon[]): void {
 

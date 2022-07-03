@@ -1,6 +1,6 @@
 import { Pokemon, customData } from "./pokemon";
 import { PokeData } from "./pokeData";
-import { checkDataExists, setData, getData } from "./localStorage"
+import { checkDataExists, setData, getData, clearStorage } from "./localStorage"
 
 /**
  * app.ts is used by index.html ("Landing page")
@@ -106,6 +106,7 @@ window.addEventListener("load", async () => {
     else {
         // First timer? loading time is 2 seconds
         setTimeout(() => {
+            clearStorage();
             initUI(pokemonArray) //!front UI
             setData(pokemonArray);
         }, 2000);
