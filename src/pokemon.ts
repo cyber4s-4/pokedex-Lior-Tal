@@ -51,7 +51,7 @@ export class Pokemon {
 
         let hp = document.createElement("div") as HTMLDivElement;
         hp.classList.add("hp");
-        hp.textContent = `HP: ${this.customData.hp}`;
+        hp.textContent = `HP: ${Math.floor((Math.random() * this.customData.hp) + 1)}/${this.customData.hp}`;
         stats.appendChild(hp)
 
         let exp = document.createElement("div") as HTMLDivElement;
