@@ -1,5 +1,7 @@
 import { PokeData, Ability, Type } from "./pokeData"
 
+const NUM_OF_POKEMONS = 151;
+
 export interface customData {
     img: string;
     hp: number;
@@ -26,7 +28,10 @@ export class Pokemon {
             this.parent.style.opacity = "1";
         }
 
+        
         let pokemonUI = this.parent as HTMLDivElement
+
+        pokemonUI.setAttribute("opacity", "0");
 
         let image = document.createElement("img") as HTMLImageElement;
         let pokemonImg = this.customData.img;
@@ -120,30 +125,8 @@ export class Pokemon {
             typeIcon.classList.add("type")
             typesDiv.appendChild(typeIcon);
         }
-
-        // let type = document.createElement("div") as HTMLDivElement;
-        // type.classList.add("type");
-        // type.textContent = "Type:";
-        // stats.appendChild(type)
-
-        // let typesList = document.createElement("ul") as HTMLUListElement
-        // typesList.id = "type-list"
-        // type.appendChild(typesList)
-        // for (const typeName of this.customData.types) {
-        //     types.push(typeName.type.name);
-        // }
-        // for (const type of types) {
-        //     let itemList = document.createElement("li")
-        //     itemList.textContent = type
-        //     let typeIcon = document.createElement("img")
-        //     typeIcon.src = `./icons/${type}.svg`
-        //     typeIcon.classList.add(`${type}`)
-        //     itemList.appendChild(typeIcon)
-        //     typesList.appendChild(itemList)
-        // }
-
-
-        if (this.parent !== undefined) { this.parent.appendChild(pokemonUI); }
+        
+        pokemonUI.setAttribute("opacity", "1");
     }
     renderAtParent(parent: HTMLElement) {
         this.parent = parent;
@@ -209,4 +192,26 @@ export class Pokemon {
 
         this.parent = undefined;
     }
+}
+
+// Generates 3 random pokemons
+export function surpriseMe(pokemonArray: Pokemon[]): Pokemon[] {
+    const firstRandomPokemon = Math.floor(Math.random() * NUM_OF_POKEMONS);
+    const secondRandomPokemon = Math.floor(Math.random() * NUM_OF_POKEMONS);
+    const thirdRandomPokemon = Math.floor(Math.random() * NUM_OF_POKEMONS)
+
+    const randomPokemonArray = [
+        pokemonArray[firstRandomPokemon],
+        pokemonArray[secondRandomPokemon],
+        pokemonArray[thirdRandomPokemon]
+    ]
+
+    return randomPokemonArray;
+}
+
+// Sorts array alphabetically - will be used for Autofill
+export function sortPokemonData(pokemonArray: Pokemon[]): Pokemon[] {
+    return pokemonArray.sort((a, b) => {
+        return a.name.localeCompare(b.name);
+    });
 }

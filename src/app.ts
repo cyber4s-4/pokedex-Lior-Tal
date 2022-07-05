@@ -1,4 +1,4 @@
-import { Pokemon, customData } from "./pokemon";
+import { Pokemon, customData, sortPokemonData, surpriseMe } from "./pokemon";
 import { PokeData } from "./pokeData";
 import { checkDataExists, setData, getData, clearStorage } from "./localStorage"
 
@@ -34,28 +34,6 @@ async function loadPokemonURLS() {
 async function fetchRawData(pokemon: pokemonURLJson): Promise<PokeData> {
     return await fetch(pokemon.url)
         .then(response => response.json())
-}
-
-// Generates 3 random pokemons
-export function surpriseMe(pokemonArray: Pokemon[]): Pokemon[] {
-    const firstRandomPokemon = Math.floor(Math.random() * NUM_OF_POKEMONS);
-    const secondRandomPokemon = Math.floor(Math.random() * NUM_OF_POKEMONS);
-    const thirdRandomPokemon = Math.floor(Math.random() * NUM_OF_POKEMONS)
-
-    const randomPokemonArray = [
-        pokemonArray[firstRandomPokemon],
-        pokemonArray[secondRandomPokemon],
-        pokemonArray[thirdRandomPokemon]
-    ]
-
-    return randomPokemonArray;
-}
-
-// Sorts array alphabetically - will be used for Autofill
-export function sortPokemonData(pokemonArray: Pokemon[]): Pokemon[] {
-    return pokemonArray.sort((a, b) => {
-        return a.name.localeCompare(b.name);
-    });
 }
 
 /**

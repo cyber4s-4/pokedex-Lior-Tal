@@ -1,7 +1,5 @@
-import { Pokemon, customData } from "./pokemon";
-import { PokeData } from "./pokeData";
-import { checkDataExists, setData, getData } from "./localStorage"
-import { surpriseMe, sortPokemonData } from "./app";
+import { Pokemon, customData, surpriseMe, sortPokemonData } from "./pokemon";
+import { checkDataExists, getData } from "./localStorage"
 
 /**
  * discover.ts is used by discover.html ("Discover page")
@@ -16,10 +14,16 @@ import { surpriseMe, sortPokemonData } from "./app";
  * If unfound - gives relevant alert
  */
 function searchRender(pokemonArray: Pokemon[]) {
+
+    // Optional code for removing the "all pokemon" viewer upon clicking 'search'
+    
+    // let allPokemonViewer = document.getElementById("all-pokemon-container") as HTMLDivElement;
+    // allPokemonViewer.innerHTML = "";
+
     // Parent element
     const parentElement = document.getElementById("pokemon-container") as HTMLElement;
     console.log(parentElement);
-    
+
 
     // Get input text
     let inputEl = document.getElementById("search-box") as HTMLInputElement
@@ -29,9 +33,9 @@ function searchRender(pokemonArray: Pokemon[]) {
     parentElement.innerHTML = "";
 
     let foundIndicator = false;
-    
+
     // Searching by name
-    for (const pokemon of pokemonArray) {        
+    for (const pokemon of pokemonArray) {
         if (text.toLowerCase() === pokemon.name) {
 
             // Renders at given parentElement
@@ -42,6 +46,7 @@ function searchRender(pokemonArray: Pokemon[]) {
     // Error - not found
     if (!foundIndicator) {
         alert("no such pokemon, try again!");
+        parentElement.setAttribute("style", "opacity: 0");
     }
 }
 
@@ -78,6 +83,21 @@ function initUI(pokemonArray: Pokemon[]): void {
         randPokemons[0].parent = document.getElementById("pokemon-container") as HTMLElement;
         randPokemons[0].renderAtParent(parentElement);
     });
+
+    // 
+    renderAll(pokemonArray);
+}
+
+// Renders all the pokemons (separate segment under the "search" area)
+function renderAll(pokemonArray: Pokemon[]): void {
+    const parentElement = document.getElementById("all-pokemon-container") as HTMLElement;
+
+    for (let pokemon of pokemonArray) {
+        let tempDiv = document.createElement("div") as HTMLDivElement;
+        pokemon.renderAtParent(tempDiv);
+        tempDiv.classList.add("pokemon-container");
+        parentElement.appendChild(tempDiv);
+    }
 }
 
 /**
@@ -104,6 +124,6 @@ window.addEventListener("load", async () => {
     else {
         // Go to index.html => load data correctly
         alert("error, Pokemon information did not load\nClick OK to reload")
-        window.location.href="index.html";
+        window.location.href = "index.html";
     }
 })
