@@ -25,18 +25,13 @@ export class Pokemon {
     renderPokemon() {
         if (this.parent !== undefined) {
             this.parent.innerHTML = "";
-            this.parent.style.opacity = "1";
         }
 
-        
         let pokemonUI = this.parent as HTMLDivElement
-
-        pokemonUI.setAttribute("opacity", "0");
 
         let image = document.createElement("img") as HTMLImageElement;
         let pokemonImg = this.customData.img;
         image.src = pokemonImg;
-        console.log(image.src);
 
         image.classList.add("pokemon-img")
         pokemonUI.appendChild(image)
@@ -100,17 +95,6 @@ export class Pokemon {
             let attackName = document.createElement("li") as HTMLLIElement;
             attackName.textContent = attack;
             singleAttack.appendChild(attackName);
-            // let attackType = document.createElement("div") as HTMLDivElement;
-            // attackType.classList.add("type-container")
-
-            // for (const type of types) {
-            //     let typeIcon = document.createElement("img") as HTMLImageElement
-            //     typeIcon.src = `./icons/${type}.svg`
-            //     typeIcon.classList.add(`${type}`)
-            //     attackType.appendChild(typeIcon);
-            // }
-
-            // singleAttack.appendChild(attackType)
             attacksList.appendChild(singleAttack)
         }
 
@@ -125,9 +109,8 @@ export class Pokemon {
             typeIcon.classList.add("type")
             typesDiv.appendChild(typeIcon);
         }
-        
-        pokemonUI.setAttribute("opacity", "1");
     }
+
     renderAtParent(parent: HTMLElement) {
         this.parent = parent;
         this.renderPokemon();

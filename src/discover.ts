@@ -16,7 +16,7 @@ import { checkDataExists, getData } from "./localStorage"
 function searchRender(pokemonArray: Pokemon[]) {
 
     // Optional code for removing the "all pokemon" viewer upon clicking 'search'
-    
+
     // let allPokemonViewer = document.getElementById("all-pokemon-container") as HTMLDivElement;
     // allPokemonViewer.innerHTML = "";
 
@@ -30,24 +30,32 @@ function searchRender(pokemonArray: Pokemon[]) {
     let text = inputEl.value;
     console.log(inputEl.value);
     // Reset recent render
-    
+
     let foundIndicator = false;
 
     // Searching by name
     for (const pokemon of pokemonArray) {
         if (text.toLowerCase() === pokemon.name) {
-            
+
             // Renders at given parentElement
             inputEl.value = "";
             parentElement.innerHTML = "";
             pokemon.renderAtParent(parentElement);
+            let allPokemonContainer = document.getElementById("all-pokemon-container") as HTMLElement
+            let pokemonContainer = document.getElementById("pokemon-container") as HTMLElement
+            allPokemonContainer.style.display = "none";
+            pokemonContainer.style.display = "flex";
             foundIndicator = true;
         }
     }
     // Error - not found
     if (!foundIndicator) {
+        inputEl.value = "";
         alert("no such pokemon, try again!");
-        parentElement.setAttribute("style", "opacity: 0");
+        let allPokemonContainer = document.getElementById("all-pokemon-container") as HTMLElement
+        let pokemonContainer = document.getElementById("pokemon-container") as HTMLElement
+        allPokemonContainer.style.display = "flex";
+        pokemonContainer.style.display = "none";
     }
 }
 
@@ -77,6 +85,11 @@ function initUI(pokemonArray: Pokemon[]): void {
 
     // Gives surprise button instructions (log and render 1 out of 2)
     surpriseBtn.addEventListener("click", () => {
+        let allPokemonContainer = document.getElementById("all-pokemon-container") as HTMLElement
+        let pokemonContainer = document.getElementById("pokemon-container") as HTMLElement
+        allPokemonContainer.style.display = "none";
+        pokemonContainer.style.display = "flex";
+
         const randPokemons: Pokemon[] = surpriseMe(pokemonArray);
         console.log(`first Pokemon: ${randPokemons[0].name}\n` +
             `Second Pokemon: ${randPokemons[1].name}`);
@@ -85,6 +98,14 @@ function initUI(pokemonArray: Pokemon[]): void {
         randPokemons[0].renderAtParent(parentElement);
     });
 
+    let allBtn = document.getElementById("all-btn") as HTMLButtonElement;
+
+    allBtn.addEventListener("click", () => {
+        let allPokemonContainer = document.getElementById("all-pokemon-container") as HTMLElement
+        let pokemonContainer = document.getElementById("pokemon-container") as HTMLElement
+        allPokemonContainer.style.display = "flex";
+        pokemonContainer.style.display = "none";
+    })
     // 
     renderAll(pokemonArray);
 }

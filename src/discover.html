@@ -18,8 +18,9 @@
         <input type="text" name="viewport" id="search-box" class="search-box">
         <button id="search-btn" class="btn-search btn">search</button>
         <button id="surprise-btn" class="btn-surprise btn">surprise!</button>
+        <button id="all-btn" class="all-btn btn">All</button>
     </section>
-    <section id="pokemon-container" class="pokemon-container" style="opacity: 0"></section>
+    <div id="pokemon-container" class="pokemon-container" style="display: none"></div>
     <button id="up-btn" class="btn-up btn">GO UP</button>
     <script>
         let scrollUpBtn = document.getElementById("up-btn")
@@ -29,9 +30,9 @@
         })
     </script>
     <div class="all-pokemon-container" id="all-pokemon-container"></div>
-    <footer class="footer">
+    <div class="return">
         <a href="./index.html"><button id="surprise-btn" class="btn-surprise btn">Return</button></a>
-    </footer>
+    </div>
 </body>
 
 </html>

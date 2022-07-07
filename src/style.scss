@@ -29,7 +29,7 @@ body {
 }
 
 .search {
-    width: 35%;
+    width: 40%;
     height: 10%;
     display: flex;
     justify-content: space-evenly;
@@ -74,6 +74,7 @@ body {
     transform-style: preserve-3d;
     will-change: transform;
     transition: transform 0.5s;
+    margin-bottom: 3vh;
 
     &:hover {
         transform: translateZ(10px) rotate(10deg) rotateY(30deg);
@@ -133,10 +134,12 @@ body {
 // TODO: Fix flex and layout of elements
 // Experimental CSS for all pokemon viewer
 .all-pokemon-container {
+    margin-top: 3vh;
     max-width: 80%;
     display: flex;
     flex-wrap: wrap;
-
+    justify-content: center;
+    
     .pokemon-container {
         width: 15%;
         margin-left: 25px;
@@ -145,7 +148,12 @@ body {
     }
 }
 
-.footer {
+.return {
+    position: fixed;
+    bottom: 20px;
+    left: 30px;
+    z-index: 99;
+
     .btn {
         padding-top: 0.5vh;
         border: none;
