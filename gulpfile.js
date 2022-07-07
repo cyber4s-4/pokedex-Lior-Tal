@@ -22,14 +22,14 @@ gulp.task('build', () => {
 
 // Converts scss to css
 gulp.task('scss', () => {
-  return gulp.src('./src/**/*.scss')
+  return gulp.src('./src/STYLES/*.scss')
     .pipe(sass())
     .pipe(gulp.dest('./dist'));
 });
 
 // Transfers index
 gulp.task('index', () => {
-  return gulp.src(['./src/*.html', './src/favicon.ico'])
+  return gulp.src(['./src/HTML/*.html', './src/favicon.ico'])
     .pipe(gulp.dest('./dist'));
 });
 
@@ -69,12 +69,12 @@ gulp.task('browser-sync-watch', () => {
 
 // Watch scss files
 gulp.task('watch-scss', () => {
-  return gulp.watch('./src/**/*.scss', gulp.series('scss'));
+  return gulp.watch('./src/STYLES/*.scss', gulp.series('scss'));
 });
 
 // Watch html files
 gulp.task('watch-html', () => {
-  return gulp.watch('./src/*.html', gulp.series('index'));
+  return gulp.watch('./src/HTML/*.html', gulp.series('index'));
 });
 
 // Watch tsc files
