@@ -20,7 +20,15 @@
         <button id="surprise-btn" class="btn-surprise btn">surprise!</button>
     </section>
     <section id="pokemon-container" class="pokemon-container" style="opacity: 0"></section>
-    <div id="all-pokemon-container"></section>
+    <button id="up-btn" class="btn-up btn">GO UP</button>
+    <script>
+        let scrollUpBtn = document.getElementById("up-btn")
+        scrollUpBtn.addEventListener("click", () => {
+            document.body.scrollTop = 0
+            document.documentElement.scrollTop = 0
+        })
+    </script>
+    <div class="all-pokemon-container" id="all-pokemon-container"></div>
     <footer class="footer">
         <a href="./index.html"><button id="surprise-btn" class="btn-surprise btn">Return</button></a>
     </footer>
