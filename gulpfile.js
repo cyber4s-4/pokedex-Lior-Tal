@@ -22,7 +22,7 @@ gulp.task('build', () => {
 
 // Converts scss to css
 gulp.task('scss', () => {
-  return gulp.src('./src/STYLES/*.scss')
+  return gulp.src('./src/Styles/*.scss')
     .pipe(sass())
     .pipe(gulp.dest('./dist'));
 });
@@ -69,7 +69,7 @@ gulp.task('browser-sync-watch', () => {
 
 // Watch scss files
 gulp.task('watch-scss', () => {
-  return gulp.watch('./src/STYLES/*.scss', gulp.series('scss'));
+  return gulp.watch('./src/Styles/*.scss', gulp.series('scss'));
 });
 
 // Watch html files
