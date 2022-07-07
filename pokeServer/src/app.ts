@@ -28,38 +28,32 @@ async function loadPokemonURLS(): Promise<pokemonUrlJson[]> {
         .then(function (result: any) {
             pokemonUrlArray = result.data.results;
         })
-    // console.log(pokemonUrlArray);
+
     return pokemonUrlArray;
 }
 
 // Fetch from URL
-async function fetchData(pokemon: pokemonUrlJson) {
+async function fetchData(pokemon: pokemonUrlJson): Promise<PokeData> {
     const URL = pokemon.url;
-    let pokemonJson: PokeData[];
-    await axios.get(URL)
-        .then(function (result: any) {
-            // console.log(result.data)
-            pokemonJson = result.data;
-            return pokemonJson;
-        })
-    return pokemonJson;
-
+    let pokemonJson: PokeData;
+    const response = await axios.get(URL)
+    let data: PokeData = response.data;
+    return data;
+    
 }
 
 
-let pokemonJsonArray = [];
 loadPokemonURLS().then(function (pokemonUrlArray) {
+    let pokemonJsonArray: PokeData[] = [];
 
-    // console.log(pokemonUrlArray[0].name);
-    console.log(fetchData(pokemonUrlArray[0]))
-
-    })
-
-    // for (let pokemonUrl of pokemonUrlArray) {
-    //     fetchData(pokemonUrl).then(function (result) {
-    //         pokemonJsonArray.push(result)
-    //     })
-    // }
+    for (let pokemonUrl of pokemonUrlArray) {
+        fetchData(pokemonUrl).then(function (result) {
+            console.log(typeof result);            
+            pokemonJsonArray.push(result)
+        })
+    }
+    console.log(pokemonJsonArray);
+    
 })
 // TODO: create json of pokemon json's
 

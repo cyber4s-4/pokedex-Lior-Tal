@@ -18,24 +18,24 @@ async function loadPokemonURLS() {
         .then(function (result) {
         pokemonUrlArray = result.data.results;
     });
-    // console.log(pokemonUrlArray);
     return pokemonUrlArray;
 }
 // Fetch from URL
 async function fetchData(pokemon) {
     const URL = pokemon.url;
     let pokemonJson;
-    await axios.get(URL)
-        .then(function (result) {
-        // console.log(result.data)
-        pokemonJson = result.data;
-        return pokemonJson;
-    });
-    return pokemonJson;
+    const response = await axios.get(URL);
+    let data = response.data;
+    return data;
 }
-let pokemonJsonArray = [];
 loadPokemonURLS().then(function (pokemonUrlArray) {
-    // console.log(pokemonUrlArray[0].name);
-    console.log(fetchData(pokemonUrlArray[0]));
+    let pokemonJsonArray = [];
+    for (let pokemonUrl of pokemonUrlArray) {
+        fetchData(pokemonUrl).then(function (result) {
+            console.log(typeof result);
+            pokemonJsonArray.push(result);
+        });
+    }
+    console.log(pokemonJsonArray);
 });
 // TODO: create json of pokemon json's
