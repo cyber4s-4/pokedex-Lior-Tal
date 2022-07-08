@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon dist/server.js",
-    "tsc": "npx tsc --watch",
+    "tsc": "tsc --watch",
     "json": "ts-node ./src/app.ts",
     "test-json": "ts-node ./src/check.ts"
   },

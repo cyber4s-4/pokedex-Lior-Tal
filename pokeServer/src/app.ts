@@ -10,7 +10,7 @@ import * as fs from 'fs';
 const axios = require('axios');
 
 // ! Change this variable if you've come here from troubleshooting 
-const LOADING_TIME = 2000; // 2000ms = 2 seconds
+const LOADING_TIME = 11000; // 2000ms = 2 seconds
 
 // Can be changed for array size config
 export const NUM_OF_POKEMONS = 151;
@@ -53,22 +53,19 @@ async function fetchData(pokemon: pokemonUrlJson): Promise<PokeData> {
 loadPokemonURLS().then(async function (pokemonUrlArray) {
     let pokemonJsonArray: customData[] = [];
 
-    // This code will run after 2 seconds, allowing all Pokemon data to be fetched
-    setTimeout(()=>{
+    // // This code will run after 2 seconds, allowing all Pokemon data to be fetched
+    // setTimeout(()=>{
 
-        // Creating a json file for our server (contains all data)
-        fs.writeFile('./src/PokeData.json', JSON.stringify(pokemonJsonArray), (err)=>{
-            if(err) throw err;
-        });
-    //
-    }, LOADING_TIME)
+        
+    // //
+    // }, LOADING_TIME)
 
     /**
      * Goes through every URL=> fetches data=> compiles only 
      * wanted data (global app interface) => adds it to array
      */
     for (let pokemonUrl of pokemonUrlArray) {
-        fetchData(pokemonUrl).then(pokemonData=> {
+        await fetchData(pokemonUrl).then(pokemonData=> {
             
             const customData: customData = {
                 name: pokemonData.name,
@@ -84,5 +81,14 @@ loadPokemonURLS().then(async function (pokemonUrlArray) {
             pokemonJsonArray.push(customData);
         })
     }
+
+    return pokemonJsonArray;
+
+}).then(pokemonJsonArray=> {
+    console.log(pokemonJsonArray);
+    // Creating a json file for our server (contains all data)
+    fs.writeFile('./src/PokeData.json', JSON.stringify(pokemonJsonArray), (err)=>{
+        if(err) throw err;
+    });
 })
 

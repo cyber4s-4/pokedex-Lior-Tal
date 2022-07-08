@@ -14,25 +14,17 @@ for the app to run normally
 
 2. `npm ci`
 
-3. `npm run json`
+3. `npm run tsc` (compiles typescript)
 
-4. Test the created file - `npm run json-test`
+4. `npm run json` (creates data json)
 
-5. Look at the log output:
+5. `npm run json-test`(Test the created file)
 
-#### Damaged JSON
-```console
-Error: JSON file damaged
-    at ~/pokedex-Lior-Tal/pokeServer/src/check.ts:14:15
-```
-Go to [troubleshooting](#troubleshooting) section - [Faulty JSON file](#faulty-json-file)
-</br> After troubleshooting, return to step 3 until successful
+6. Look at the log output:
 
-#### Good JSON
 ```console
 JSON file created successfully
 ```
-JSON is OK
 
 ### That's it, you can now run the server
 </br>
@@ -62,24 +54,3 @@ to run accordingly (The same JSON you generated as described above)
 Go over to ~/pokeDex and execute it with npm.
 
 </br>
-
-## Troubleshooting
-
-### Faulty JSON file:
-
-* If test-json logs to the console a number that's smaller than 151
-</br> it means that the Pokémon data didn't load fully from the API
-</br> Possible reasons: Slow internet speed (most probably), server error, etc.
-
-* Go to app.ts
-
-* Lines 12-13 for reference: 
-```js
-// ! Change this variable if you've come here from troubleshooting
-const LOADING_TIME = 2000; // 2000ms = 2 seconds
-// Change this value ^^^ to a higher one
-```
-
-* Change the value as described, if you're on slow Wi-Fi we recommend <b>10000ms</b>
-
-* Go back to [JSON generator step 3](#pokémon-json-generator) (recreate the JSON and test it)
