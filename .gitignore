@@ -1,5 +1,8 @@
 /pokeDex/node_modules
 /pokeServer/node_modules
-/node_modules
+pokeDex/dist
 /dist
+/pokeServer/dist
+/node_modules
 /.vscode
+pokeServer/src/PokeData.json
