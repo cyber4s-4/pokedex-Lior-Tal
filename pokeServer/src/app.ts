@@ -9,9 +9,11 @@ import * as fs from 'fs';
 
 const axios = require('axios');
 
+// ! Change this variable if you've come here from troubleshooting 
+const LOADING_TIME = 2000; // 2000ms = 2 seconds
 
 // Can be changed for array size config
-const NUM_OF_POKEMONS = 151;
+export const NUM_OF_POKEMONS = 151;
 
 // URL json for fetch
 interface pokemonUrlJson {
@@ -58,7 +60,8 @@ loadPokemonURLS().then(async function (pokemonUrlArray) {
         fs.writeFile('./src/PokeData.json', JSON.stringify(pokemonJsonArray), (err)=>{
             if(err) throw err;
         });
-    }, 2000)
+    //
+    }, LOADING_TIME)
 
     /**
      * Goes through every URL=> fetches data=> compiles only 
