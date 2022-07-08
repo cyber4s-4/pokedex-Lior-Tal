@@ -9,9 +9,6 @@ import * as fs from 'fs';
 
 const axios = require('axios');
 
-// ! Change this variable if you've come here from troubleshooting 
-const LOADING_TIME = 11000; // 2000ms = 2 seconds
-
 // Can be changed for array size config
 export const NUM_OF_POKEMONS = 151;
 
@@ -52,13 +49,6 @@ async function fetchData(pokemon: pokemonUrlJson): Promise<PokeData> {
  */
 loadPokemonURLS().then(async function (pokemonUrlArray) {
     let pokemonJsonArray: customData[] = [];
-
-    // // This code will run after 2 seconds, allowing all Pokemon data to be fetched
-    // setTimeout(()=>{
-
-        
-    // //
-    // }, LOADING_TIME)
 
     /**
      * Goes through every URL=> fetches data=> compiles only 
