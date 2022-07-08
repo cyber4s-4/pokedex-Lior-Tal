@@ -1,9 +1,11 @@
 /**
  * Script that fetches Pokemons from pokemon API 
- * The data is then save as JSON on the pokeServer database
+ * The data is then saved as JSON on the pokeServer database
+ * Only wanted information is taken from API (interface customData)
  */
 
-import { PokeData } from "./pokeData"
+import { PokeData, Ability, Type, customData } from "./pokeData";
+import * as fs from 'fs';
 
 const axios = require('axios');
 
@@ -32,29 +34,52 @@ async function loadPokemonURLS(): Promise<pokemonUrlJson[]> {
     return pokemonUrlArray;
 }
 
-// Fetch from URL
+// Fetch from URL the specific Pokemon data
 async function fetchData(pokemon: pokemonUrlJson): Promise<PokeData> {
     const URL = pokemon.url;
     let pokemonJson: PokeData;
     const response = await axios.get(URL)
     let data: PokeData = response.data;
     return data;
-    
+
 }
 
+/**
+ * Code runs and uses above functions, compiles only wanted 
+ * information to reduce loading time on actual app
+ */
+loadPokemonURLS().then(async function (pokemonUrlArray) {
+    let pokemonJsonArray: customData[] = [];
 
-loadPokemonURLS().then(function (pokemonUrlArray) {
-    let pokemonJsonArray: PokeData[] = [];
+    // This code will run after 2 seconds, allowing all Pokemon data to be fetched
+    setTimeout(()=>{
 
+        // Creating a json file for our server (contains all data)
+        fs.writeFile('./src/PokeData.json', JSON.stringify(pokemonJsonArray), (err)=>{
+            if(err) throw err;
+        });
+    }, 2000)
+
+    /**
+     * Goes through every URL=> fetches data=> compiles only 
+     * wanted data (global app interface) => adds it to array
+     */
     for (let pokemonUrl of pokemonUrlArray) {
-        fetchData(pokemonUrl).then(function (result) {
-            console.log(typeof result);            
-            pokemonJsonArray.push(result)
+        fetchData(pokemonUrl).then(pokemonData=> {
+            
+            const customData: customData = {
+                name: pokemonData.name,
+                img: pokemonData.sprites.other!.dream_world.front_default,
+                hp: pokemonData.stats[0].base_stat,
+                exp: pokemonData.base_experience,
+                height: pokemonData.height,
+                weight: pokemonData.weight,
+                types: pokemonData.types,
+                abilities: pokemonData.abilities
+            }
+
+            pokemonJsonArray.push(customData);
         })
     }
-    console.log(pokemonJsonArray);
-    
 })
-// TODO: create json of pokemon json's
-
 

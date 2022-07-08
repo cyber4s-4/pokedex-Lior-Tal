@@ -1,4 +1,5 @@
-/node_modules
+/pokeDex/node_modules
 /pokeServer/node_modules
+/node_modules
 /dist
 /.vscode

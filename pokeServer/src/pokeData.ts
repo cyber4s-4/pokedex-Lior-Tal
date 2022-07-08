@@ -1,3 +1,14 @@
+export interface customData {
+    name: string;
+    img: string;
+    hp: number;
+    exp: number;
+    height: number;
+    weight: number;
+    types: Type[];
+    abilities: Ability[];
+}
+
 export interface PokeData {
     abilities:                Ability[];
     base_experience:          number;

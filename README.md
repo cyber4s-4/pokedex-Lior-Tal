@@ -1,27 +1,8 @@
 # pokedex-Lior-Tal
 
-# TODO:
+# PokéDex V2
 
-* Define UI and page construction: Do we want a front page that leads to the specific pokemon, that holds a list of all pokémons? Do we want the current page but with a "choosing" mechanism that lets the user choose from a list?
+## How to run the app
 
-* Search - error "unfound" scenario (ui-wise)
-
-
-
-# Lior:
-
-## Landing hero page:
-* Front page + design (Figma)
-* Pokemon page + design (Figma)
-
-# Tal:
-
-## Search:
-* Autofill - still TODO
-## Etc.
-* Randomize 3 pokemon - only img, name and types
-
-# Current features
-
-
-
+* Go to PokéServer, go through README and create a working, stable server
+* Go to PokéDex, and use `npm start` to get it up and running

@@ -1,26 +1,21 @@
 import express from "express";
 import { Request, Response } from "express";
 import { json } from "body-parser";
+import { PokeData } from "./pokeData";
+const cors = require("cors");
 const fs = require("fs");
 const path = require("path");
 
 const app = express();
 app.use(json());
+app.use(cors())
 
-interface User {
-  name: string;
-  about: string;
-  avatar: string;
-  id: string;
-}
+const filePath: string = path.join(__dirname, "../src/PokeData.json");
+const readFileData: PokeData[] = JSON.parse(fs.readFileSync(filePath, "utf8"));
 
-
-const filePath: string = path.join(__dirname, "../data/data.json");
-const readFileData: User[] = JSON.parse(fs.readFileSync(filePath, "utf8"));
-
-// TODO: Refactor to pokemon json file
+// Sending a GET Request to localhost:3000 will give the client PokeData json
 app.get("/", (req: Request, res: Response) => {
-  res.status(200).send(readFileData);
+    res.status(200).send(readFileData);
 });
 
 

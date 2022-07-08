@@ -10,6 +10,7 @@
         "@types/jest": "^28.1.1",
         "@typescript-eslint/eslint-plugin": "^5.24.0",
         "@typescript-eslint/parser": "^5.24.0",
+        "axios": "0.27.2",
         "browser-sync": "^2.27.9",
         "eslint": "^8.15.0",
         "gulp": "^4.0.2",
