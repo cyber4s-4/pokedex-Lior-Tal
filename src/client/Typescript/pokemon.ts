@@ -105,7 +105,7 @@ export class Pokemon {
 
         for (const type of types) {
             let typeIcon = document.createElement("img") as HTMLImageElement
-            typeIcon.src = `./icons/${type}.svg`
+            typeIcon.src = `../icons/${type}.svg`
             typeIcon.classList.add(`${type}`)
             typeIcon.classList.add("type")
             typesDiv.appendChild(typeIcon);
@@ -155,7 +155,7 @@ export class Pokemon {
         let typeOne = types[0].type.name;
         let typeImgOne = document.createElement("img");
         typeImgOne.classList.add(`${typeOne}`);
-        typeImgOne.setAttribute("src", `./icons/${typeOne}.svg`);
+        typeImgOne.setAttribute("src", `../icons/${typeOne}.svg`);
         typeContainerDiv.appendChild(typeImgOne);
 
         // type 2 (if exists)
@@ -164,7 +164,7 @@ export class Pokemon {
         if (types.length === 2) {
             let typeTwo = types[1].type.name;
             typeImgTwo.classList.add(`${typeTwo}`);
-            typeImgTwo.setAttribute("src", `./icons/${typeTwo}.svg`);
+            typeImgTwo.setAttribute("src", `../icons/${typeTwo}.svg`);
         } else {
             typeImgTwo.setAttribute("src", ``);
         }

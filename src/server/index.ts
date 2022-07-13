@@ -4,7 +4,7 @@
  * Only wanted information is taken from API (interface customData)
  */
 
-import { PokeData, Ability, Type, customData } from "./pokeData";
+import { PokeData, customData } from "./pokeData";
 import * as fs from 'fs';
 
 const axios = require('axios');
@@ -25,7 +25,7 @@ Initial pokemon data fetch (GET) => Gets json with
 async function loadPokemonURLS(): Promise<pokemonUrlJson[]> {
     let pokemonUrlArray: pokemonUrlJson[] = [];
     const URL = `https://pokeapi.co/api/v2/pokemon?limit=${NUM_OF_POKEMONS}`
-    const response = await axios.get(URL)
+    await axios.get(URL)
         .then(function (result: any) {
             pokemonUrlArray = result.data.results;
         })
@@ -36,7 +36,6 @@ async function loadPokemonURLS(): Promise<pokemonUrlJson[]> {
 // Fetch from URL the specific Pokemon data
 async function fetchData(pokemon: pokemonUrlJson): Promise<PokeData> {
     const URL = pokemon.url;
-    let pokemonJson: PokeData;
     const response = await axios.get(URL)
     let data: PokeData = response.data;
     return data;
@@ -55,8 +54,8 @@ loadPokemonURLS().then(async function (pokemonUrlArray) {
      * wanted data (global app interface) => adds it to array
      */
     for (let pokemonUrl of pokemonUrlArray) {
-        await fetchData(pokemonUrl).then(pokemonData=> {
-            
+        await fetchData(pokemonUrl).then(pokemonData => {
+
             const customData: customData = {
                 name: pokemonData.name,
                 img: pokemonData.sprites.other!.dream_world.front_default,
@@ -74,11 +73,11 @@ loadPokemonURLS().then(async function (pokemonUrlArray) {
 
     return pokemonJsonArray;
 
-}).then(pokemonJsonArray=> {
+}).then(pokemonJsonArray => {
     console.log(pokemonJsonArray);
     // Creating a json file for our server (contains all data)
-    fs.writeFile('./src/PokeData.json', JSON.stringify(pokemonJsonArray), (err)=>{
-        if(err) throw err;
+    fs.writeFile('./PokeData.json', JSON.stringify(pokemonJsonArray), (err) => {
+        if (err) throw err;
     });
 })
 

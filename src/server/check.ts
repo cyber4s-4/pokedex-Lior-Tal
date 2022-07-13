@@ -1,8 +1,8 @@
 import { PokeData } from "./pokeData";
 import * as fs from 'fs';
-import {NUM_OF_POKEMONS} from './app';
+import {NUM_OF_POKEMONS} from './index';
 
-fs.readFile('./src/PokeData.json','utf-8',(err, data)=>{
+fs.readFile('./PokeData.json','utf-8',(err, data)=>{
     if (err) throw err;
     let pokeDataArray: PokeData[] = JSON.parse(data)
 

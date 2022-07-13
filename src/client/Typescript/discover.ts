@@ -134,7 +134,7 @@ window.addEventListener("load", async () => {
 
     let pokemonArray: Pokemon[] = [];
     
-    const response = await axios.get('http://localhost:3000/');
+    const response = await axios.get('/data');
     let data: customData[] = response.data;
     console.log(data);
     for (let pokemonData of data) {
