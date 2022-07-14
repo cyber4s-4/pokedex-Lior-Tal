@@ -153,8 +153,10 @@ gulp.task('heroku-copy-client-favicon', () => {
 // Heroku copy dist files
 gulp.task('heroku-copy-server', () => {
   return gulp.src([
-    './dist/server/*.js',
-    './dist/server/*.js.map',
+    './dist/server/pokeData.js',
+    './dist/server/pokeData.js.map',
+    './dist/server/server.js',
+    './dist/server/server.js.map',
   ])
     .pipe(gulp.dest('./deploy/server'));
 });

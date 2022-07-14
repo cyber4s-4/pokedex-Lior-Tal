@@ -1,4 +1,4 @@
-import { PokeData } from "./pokeData";
+import { customData } from "./pokeData";
 import * as fs from 'fs';
 import { MongoClient } from 'mongodb'
 import { uri } from './key'
@@ -12,7 +12,7 @@ async function main() {
 
         const pokeDB = client.db("pokeDataBase")
         
-        const pokeData_collection = pokeDB.collection<PokeData>("pokeData")
+        const pokeData_collection = pokeDB.collection<customData>("pokeData")
 
         const pokeJson = readJSON();
 
@@ -27,7 +27,7 @@ async function main() {
 
 function readJSON() {
     let rawData = fs.readFileSync('./PokeData.json', 'utf-8')
-    let pokeDataArray: PokeData[] = JSON.parse(rawData);
+    let pokeDataArray: customData[] = JSON.parse(rawData);
     return pokeDataArray;
 }
 
