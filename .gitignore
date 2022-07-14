@@ -2,3 +2,4 @@
 /dist
 /deploy
 /.vscode
+src/server/key.ts
