@@ -10,12 +10,13 @@ async function main() {
         
         await client.connect()
 
-        const pokeDataCollection = client.db("pokeDataBase").collection("pokeData")
-
-        const pokeData = uploadData()
-
-        console.log(pokeData);
+        const pokeDB = client.db("pokeDataBase")
         
+        const pokeData_collection = pokeDB.collection<PokeData>("pokeData")
+
+        const pokeJson = readJSON();
+
+        await pokeData_collection.insertMany(pokeJson);
         
     } catch (error) {
         console.log(error);
@@ -24,13 +25,10 @@ async function main() {
     }
 }
 
-async function uploadData() {
-    fs.readFile('./PokeData.json', 'utf-8', (err, data) => {
-        if (err)
-            throw err;
-        let pokeDataArray: PokeData[] = JSON.parse(data);
-        return pokeDataArray;
-    })
+function readJSON() {
+    let rawData = fs.readFileSync('./PokeData.json', 'utf-8')
+    let pokeDataArray: PokeData[] = JSON.parse(rawData);
+    return pokeDataArray;
 }
 
 main()

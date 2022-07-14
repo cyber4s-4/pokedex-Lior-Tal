@@ -40,7 +40,7 @@ export function getData(): Pokemon[] {
             abilities: rawData.customData.abilities
         }
 
-        pokemonArray.push(new Pokemon(rawData.name, customData, rawData.parent));
+        // pokemonArray.push(new Pokemon(rawData.name, customData, rawData.parent));
     }
     return pokemonArray;
 }

@@ -6,6 +6,7 @@
     "deploy": "gulp deploy",
     "lint": "eslint ./src --ext .ts",
     "lint-fix": "eslint ./src --ext .ts --fix",
+    "upload": "ts-node ./src/server/upload.ts",
     "jest": "jest"
   },
   "dependencies": {
