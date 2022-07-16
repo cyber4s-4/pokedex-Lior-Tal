@@ -2,11 +2,13 @@
   "name": "heroku-starter-project",
   "scripts": {
     "start": "gulp",
+    "json": "ts-node .src/server/index.ts",
     "server": "nodemon --watch ./src/server ./src/server/server.ts",
     "deploy": "gulp deploy",
     "lint": "eslint ./src --ext .ts",
     "lint-fix": "eslint ./src --ext .ts --fix",
     "upload": "ts-node ./src/server/upload.ts",
+    "fusion": "ts-node ./src/server/fusion.ts",
     "jest": "jest"
   },
   "dependencies": {
