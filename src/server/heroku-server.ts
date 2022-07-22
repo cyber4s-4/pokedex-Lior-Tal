@@ -5,20 +5,19 @@ import { customData } from "../client/Typescript/pokeData";
 import { MongoClient } from 'mongodb';
 import { main, searchAll, allFav, updateFavorite, updateFavoriteFalse } from './queries';
 
+export const uri = 'mongodb+srv://cyber4s:pokemondata@cluster0.dw27scw.mongodb.net/?retryWrites=true&w=majority';
 const cors = require("cors");
 const fs = require("fs");
 const path = require("path");
 const app = express();
-export const uri = 'mongodb+srv://cyber4s:pokemondata@cluster0.dw27scw.mongodb.net/?retryWrites=true&w=majority';
+
 const MAX_PAGE_NUM = 5000;
+const root: string = path.join(process.cwd(), 'dist');
+
+app.use(express.static(root));
 
 app.use(json());
-app.use(cors())
-
-
-// ! DEPRECATED
-const filePath: string = path.join(__dirname, "../PokeData.json");
-const readFileData: customData[] = JSON.parse(fs.readFileSync(filePath, "utf8"));
+app.use(cors());
 
 // Data request endpoint for pagination on client side
 app.get("/data", async (req: Request, res: Response) => {
@@ -85,5 +84,11 @@ app.get("/unfavorite", async (req: Request, res: Response) => {
     // })
 })
 
+app.get('*', (_req, res) => {
+    res.sendFile(path.join(root, 'index.html'));
+});
 
-app.listen(3000);
+const port = process.env.PORT || 3000;
+app.listen(port, () => {
+    console.log('Hosted: http://localhost:' + port);
+});

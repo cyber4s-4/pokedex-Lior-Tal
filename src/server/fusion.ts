@@ -1,6 +1,6 @@
-import { customData } from "./pokeData";
+import { customData } from "../client/Typescript/pokeData";
 import { MongoClient } from 'mongodb'
-import { uri } from './key'
+import { uri } from './server'
 
 const client = new MongoClient(uri)
 

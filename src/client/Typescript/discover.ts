@@ -1,20 +1,28 @@
+/**
+ * discover.ts is used by discover.html ("Discover page")
+ * It renders Pokemon information in the UI, via 'search' & 'Surprise me!' button.
+ */
+
 import { Pokemon, customData, surpriseMe, sortPokemonData } from "./pokemon";
+import { randomPagePokemonArray } from "./app";
 import { checkDataExists, getData } from "./localStorage";
 import { PokeData } from "./pokeData";
 import axios from "axios";
-/**
- * discover.ts is used by discover.html ("Discover page")
- * discover.ts renders Pokemon information in the UI, wether by search
- * or by "Surprise me!" button.
- */
+
+let originLink: string;
+// Acquire API link (gulp/heroku instance)
+if (window.location.origin.includes("localhost")) {
+    originLink = "http://localhost:3000"
+} else originLink = window.location.origin;
+
+// Maximum page number for discover segment (Pokemons on DB divided by 20 per page)
+const MAX_PAGE_NUM = 5000;
 
 /**
- * searchRender() occurs on each 'Search' click
  * Searches for a match on the database for the user's input
- * Renders the found Pokemon object's UI component
- * If unfound - gives relevant alert
+ * Renders the found Pokemon object's UI component (includes error handling)
  */
-function searchRender(pokemonArray: Pokemon[]) {
+async function searchRender() {
 
     // Optional code for removing the "all pokemon" viewer upon clicking 'search'
 
@@ -33,50 +41,85 @@ function searchRender(pokemonArray: Pokemon[]) {
     // Reset recent render
 
     let foundIndicator = false;
+    let allPokemonContainer = document.getElementById("all-pokemon-container") as HTMLElement
+    let pokemonContainer = document.getElementById("pokemon-container") as HTMLElement
 
-    // Searching by name
-    for (const pokemon of pokemonArray) {
-        if (text.toLowerCase() === pokemon.name) {
+    // Making a search request through the API
+    const searchResponse = await axios.get(`${originLink}/search?name=${text.toLowerCase()}`);
 
-            // Renders at given parentElement
-            inputEl.value = "";
-            parentElement.innerHTML = "";
-            pokemon.renderAtParent(parentElement);
-            let allPokemonContainer = document.getElementById("all-pokemon-container") as HTMLElement
-            let pokemonContainer = document.getElementById("pokemon-container") as HTMLElement
-            allPokemonContainer.style.display = "none";
-            pokemonContainer.style.display = "flex";
-            foundIndicator = true;
-        }
-    }
+    let data: customData | string = searchResponse.data;
+
+    console.log(data);
+
     // Error - not found
-    if (!foundIndicator) {
+    if (data === "Not found") {
         inputEl.value = "";
         alert("no such pokemon, try again!");
-        let allPokemonContainer = document.getElementById("all-pokemon-container") as HTMLElement
-        let pokemonContainer = document.getElementById("pokemon-container") as HTMLElement
+
         allPokemonContainer.style.display = "flex";
         pokemonContainer.style.display = "none";
     }
+
+    // Found pokemon on database, creates Pokemon object, renders it
+    else {
+        data = data as customData;
+        const foundPokemon: Pokemon = new Pokemon(data.name, data)
+        // Renders at given parentElement
+        inputEl.value = "";
+        parentElement.innerHTML = "";
+        foundPokemon.renderAtParent(parentElement);
+        allPokemonContainer.style.display = "none";
+        pokemonContainer.style.display = "flex";
+        foundIndicator = true;
+    }
+}
+
+async function showFavorites() {
+    const parentElement = document.getElementById("pokemon-container") as HTMLElement;
+    let allPokemonContainer = document.getElementById("all-pokemon-container") as HTMLElement
+
+    const searchResponse = await axios.get(`${originLink}/allFav`);
+
+    let data: customData[] = searchResponse.data;
+
+    let pokemonArr: Pokemon[] = [];
+
+    
+    if (data.length > 0) {
+        for (let i = 0; i < data.length; i++) {
+            parentElement.innerHTML = "";
+            const newPokemon: Pokemon = new Pokemon(data[i].name, data[i])
+            pokemonArr.push(newPokemon)
+        }
+    } else {
+        alert("no favorite pokemon!");
+    }
+    
+    console.log(pokemonArr);
+    renderAll(pokemonArr)
 }
 
 /**
  * Initiates the discover page UI on "load" (after HTML is loaded)
  */
-function initUI(pokemonArray: Pokemon[]): void {
+function initUI(pokemonArray: Pokemon[], currentPage: number): void {
+
     const parentElement = document.getElementById("pokemon-container") as HTMLElement;
 
     let searchBtn = document.getElementById("search-btn") as HTMLButtonElement;
     console.log(pokemonArray);
 
-    searchBtn.addEventListener("click", () => searchRender(pokemonArray))
+    searchBtn.addEventListener("click", () => searchRender())
+
+    let favoriteBtn = document.getElementById("favorite-btn") as HTMLButtonElement
+
+    favoriteBtn.addEventListener("click", () => showFavorites())
 
     let searchInput = document.getElementById("search-box") as HTMLInputElement;
 
+    // Enter key integration
     searchInput.addEventListener("keypress", function (event) {
-        // If the user presses the "Enter" key on the keyboard
         if (event.key === "Enter") {
-            // Trigger the button element with a click
             searchBtn.click();
         }
     });
@@ -84,21 +127,24 @@ function initUI(pokemonArray: Pokemon[]): void {
     // Surprise button for testing surpriseMe(), renders the second random pokemon
     let surpriseBtn = document.getElementById("surprise-btn") as HTMLButtonElement;
 
-    // Gives surprise button instructions (log and render 1 out of 2)
-    surpriseBtn.addEventListener("click", () => {
+    // Gives surprise button instructions
+    surpriseBtn.addEventListener("click", async () => {
+
+        // Get random pokemon page from api
         let allPokemonContainer = document.getElementById("all-pokemon-container") as HTMLElement
         let pokemonContainer = document.getElementById("pokemon-container") as HTMLElement
         allPokemonContainer.style.display = "none";
         pokemonContainer.style.display = "flex";
 
-        const randPokemons: Pokemon[] = surpriseMe(pokemonArray);
-        console.log(`first Pokemon: ${randPokemons[0].name}\n` +
-            `Second Pokemon: ${randPokemons[1].name}`);
+        await randomPagePokemonArray().then(randomPokemonArray => {
+            const randPokemons: Pokemon[] = surpriseMe(randomPokemonArray);
+            randPokemons[0].parent = document.getElementById("pokemon-container") as HTMLElement;
+            randPokemons[0].renderAtParent(parentElement);
+        })
 
-        randPokemons[0].parent = document.getElementById("pokemon-container") as HTMLElement;
-        randPokemons[0].renderAtParent(parentElement);
     });
 
+    // Show all button (removes search/surprise filters)
     let allBtn = document.getElementById("all-btn") as HTMLButtonElement;
 
     allBtn.addEventListener("click", () => {
@@ -106,14 +152,30 @@ function initUI(pokemonArray: Pokemon[]): void {
         let pokemonContainer = document.getElementById("pokemon-container") as HTMLElement
         allPokemonContainer.style.display = "flex";
         pokemonContainer.style.display = "none";
-    })
-    // 
+    });
+
+    // 'Previous' and 'Next' buttons
+    let previousPage: number = currentPage - 1;
+    if (previousPage === 0) { previousPage++; }
+
+    let nextPage: number = currentPage + 1;
+    if (nextPage === MAX_PAGE_NUM) { previousPage--; }
+
+    const leftButton = document.getElementById("left-btn");
+    leftButton?.setAttribute("onclick", `window.location.search='page=${previousPage.toString()}';`);
+
+    const rightButton = document.getElementById("right-btn");
+    rightButton?.setAttribute("onclick", `window.location.search='page=${nextPage.toString()}';`);
+
+
+    // Render all Pokemons
     renderAll(pokemonArray);
 }
 
 // Renders all the pokemons (separate segment under the "search" area)
 function renderAll(pokemonArray: Pokemon[]): void {
     const parentElement = document.getElementById("all-pokemon-container") as HTMLElement;
+    parentElement.innerHTML = ""
 
     for (let pokemon of pokemonArray) {
         let tempDiv = document.createElement("div") as HTMLDivElement;
@@ -121,6 +183,7 @@ function renderAll(pokemonArray: Pokemon[]): void {
         tempDiv.classList.add("pokemon-container");
         parentElement.appendChild(tempDiv);
     }
+
 }
 
 /**
@@ -132,15 +195,23 @@ function renderAll(pokemonArray: Pokemon[]): void {
  */
 window.addEventListener("load", async () => {
 
+
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString)
+    const currentPage = parseInt(urlParams.get('page')!);
+
     let pokemonArray: Pokemon[] = [];
-    
-    const response = await axios.get('/data');
+
+    const response = await axios.get(`${originLink}/data?page=${currentPage}`);
     let data: customData[] = response.data;
     console.log(data);
     for (let pokemonData of data) {
         pokemonArray.push(new Pokemon(pokemonData.name, pokemonData));
     }
+
     pokemonArray = sortPokemonData(pokemonArray);
-    initUI(pokemonArray);
+
+    // Render after pokemonArray is created and sorted
+    initUI(pokemonArray, currentPage);
 
 })

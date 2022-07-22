@@ -1,6 +1,7 @@
+import axios from "axios";
 import { PokeData, Ability, Type } from "./pokeData"
 
-const NUM_OF_POKEMONS = 151;
+const NUM_OF_POKEMONS = 20;
 
 export interface customData {
     name: string;
@@ -11,6 +12,7 @@ export interface customData {
     weight: number;
     types: Type[];
     abilities: Ability[];
+    favorite?: false | true
 }
 
 export class Pokemon {
@@ -21,6 +23,10 @@ export class Pokemon {
         this.name = name;
         this.parent = parentElement;
         this.customData = customData;
+        this.customData.exp = Math.floor(this.customData.exp);
+        this.customData.hp = Math.floor(this.customData.hp);
+        this.customData.height = Math.floor(this.customData.height);
+        this.customData.weight = Math.floor(this.customData.weight)
     }
     //TODO: change style - delete container hardcoded
     renderPokemon() {
@@ -29,6 +35,34 @@ export class Pokemon {
         }
 
         let pokemonUI = this.parent as HTMLDivElement
+        pokemonUI.style.position = "relative"
+
+        let starIcon = document.createElement("img") as HTMLImageElement;
+        starIcon.src = "../icons/emptyStar.svg"
+
+        if (this.customData.favorite) {
+            starIcon.classList.add("star")
+            starIcon.classList.add("filled")
+        } else {
+            starIcon.classList.add("star")
+            starIcon.classList.add("empty")
+        }
+        
+        starIcon.id = "fav-btn"        
+
+        starIcon.addEventListener("click", async () => {
+            if (starIcon.classList.contains("empty")) {
+                starIcon.classList.remove("empty");
+                starIcon.classList.add("filled")
+                await axios.get(`http://localhost:3000/favorite?name=${this.name}`) 
+            } else {
+                starIcon.classList.remove("filled");
+                starIcon.classList.add("empty")
+                await axios.get(`http://localhost:3000/unfavorite?name=${this.name}`) 
+            }
+        })
+
+        pokemonUI.appendChild(starIcon)
 
         let image = document.createElement("img") as HTMLImageElement;
         let pokemonImg = this.customData.img;
@@ -105,7 +139,7 @@ export class Pokemon {
 
         for (const type of types) {
             let typeIcon = document.createElement("img") as HTMLImageElement
-            typeIcon.src = `../icons/${type}.svg`
+            typeIcon.src = `./icons/${type}.svg`
             typeIcon.classList.add(`${type}`)
             typeIcon.classList.add("type")
             typesDiv.appendChild(typeIcon);
@@ -128,12 +162,29 @@ export class Pokemon {
         this.parent = parent as HTMLElement;
 
         this.parent.innerHTML = "";
+        this.parent.style.position = "relative"
 
         // img
         let mainImg = document.createElement("img");
         mainImg.setAttribute("src", this.customData.img);
         mainImg.classList.add("pokemon-img");
         this.parent.appendChild(mainImg);
+
+        //star icon
+        let starIcon = document.createElement("img") as HTMLImageElement;
+        starIcon.src = "../icons/emptyStar.svg"
+        starIcon.classList.add("star")
+        starIcon.id = "fav-btn"
+
+        starIcon.addEventListener("click", () => {
+            if (starIcon.classList.contains("empty")) {
+                starIcon.classList.remove("empty");
+                starIcon.classList.add("filled")
+            } else {
+                starIcon.classList.remove("filled");
+                starIcon.classList.add("empty")
+            }
+        })
 
         // description (name + type imgs)
         let descriptionDiv = document.createElement("div");
@@ -155,7 +206,7 @@ export class Pokemon {
         let typeOne = types[0].type.name;
         let typeImgOne = document.createElement("img");
         typeImgOne.classList.add(`${typeOne}`);
-        typeImgOne.setAttribute("src", `../icons/${typeOne}.svg`);
+        typeImgOne.setAttribute("src", `./icons/${typeOne}.svg`);
         typeContainerDiv.appendChild(typeImgOne);
 
         // type 2 (if exists)
@@ -164,7 +215,7 @@ export class Pokemon {
         if (types.length === 2) {
             let typeTwo = types[1].type.name;
             typeImgTwo.classList.add(`${typeTwo}`);
-            typeImgTwo.setAttribute("src", `../icons/${typeTwo}.svg`);
+            typeImgTwo.setAttribute("src", `./icons/${typeTwo}.svg`);
         } else {
             typeImgTwo.setAttribute("src", ``);
         }
@@ -180,9 +231,13 @@ export class Pokemon {
 
 // Generates 3 random pokemons
 export function surpriseMe(pokemonArray: Pokemon[]): Pokemon[] {
-    const firstRandomPokemon = Math.floor(Math.random() * NUM_OF_POKEMONS);
-    const secondRandomPokemon = Math.floor(Math.random() * NUM_OF_POKEMONS);
-    const thirdRandomPokemon = Math.floor(Math.random() * NUM_OF_POKEMONS)
+    let firstRandomPokemon = Math.floor(Math.random() * NUM_OF_POKEMONS);
+    let secondRandomPokemon = Math.floor(Math.random() * NUM_OF_POKEMONS);
+    let thirdRandomPokemon = Math.floor(Math.random() * NUM_OF_POKEMONS)
+
+    if (firstRandomPokemon === secondRandomPokemon) { firstRandomPokemon++; }
+    else if (firstRandomPokemon === thirdRandomPokemon) { firstRandomPokemon++; }
+    else if (thirdRandomPokemon === secondRandomPokemon) { secondRandomPokemon++; }
 
     const randomPokemonArray = [
         pokemonArray[firstRandomPokemon],

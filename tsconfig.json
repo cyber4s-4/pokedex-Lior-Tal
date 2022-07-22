@@ -1,20 +1,22 @@
 {
-  "compilerOptions": {
-    "target": "es2020",
-    "module": "CommonJS",
-    "moduleResolution": "node",
-    "lib": ["es2020", "DOM"],
-    "baseUrl": "./",
-    "rootDir": "src",
-    "outDir": "./dist",
-    "noUnusedLocals": false,
-    "sourceMap": true,
-    "noUnusedParameters": false,
-    "forceConsistentCasingInFileNames": true,
-    "incremental": true,
-    "tsBuildInfoFile": "./dist/cache/tsc.json",
-    "skipLibCheck": true,
-    "strict": true,
-    "esModuleInterop": true,
-  }
+    "compilerOptions": {
+        "target": "es2020",
+        "module": "CommonJS",
+        "moduleResolution": "node",
+        "lib": [
+            "es2020",
+            "DOM"
+        ],
+        "baseUrl": "./",
+        "rootDir": "src",
+        "outDir": "./dist",
+        "noUnusedLocals": false,
+        "sourceMap": true,
+        "noUnusedParameters": false,
+        "forceConsistentCasingInFileNames": true,
+        "incremental": true,
+        "tsBuildInfoFile": "./dist/cache/tsc.json",
+        "strict": true,
+        "esModuleInterop": true
+    }
 }
