@@ -7,8 +7,8 @@ const client = new MongoClient(uri);
 const DATABASE_URL = `postgres://sugivyejdjefcn:12ae2f93e7ac3f60b980821d5e04da5d61d9cc4fc463071f19b21f18945ed1cd@ec2-3-223-169-166.compute-1.amazonaws.com:5432/d4e5r4bgdqcmdo`;
 const POKEMON_PAGE_LIMIT = 20;
 
-// Pagination query - returns 20 pokemons
 
+// POSTGRES - Pagination query: returns 20 pokemons
 export const getPage = 
 async (myClient: Pool, pageNumber: number): Promise<customData[]> => new Promise((resolve, reject)=>{
     
@@ -27,7 +27,7 @@ async (myClient: Pool, pageNumber: number): Promise<customData[]> => new Promise
     });
 });
 
-// Find pokemon by name
+// POSTGRES - Find pokemon by name
 export const getPokemonByName = 
 async (myClient: Pool, name: string): Promise<any> => new Promise((resolve, reject)=>{
     
@@ -43,6 +43,8 @@ async (myClient: Pool, name: string): Promise<any> => new Promise((resolve, reje
     });
 })
 
+
+// MongoDB - old query
 export async function main(pageNumber: number): Promise<customData[]> {
 
     let pokeDataArray: customData[] = [];
@@ -73,6 +75,7 @@ export async function main(pageNumber: number): Promise<customData[]> {
     }
 }
 
+// MongoDB - old query
 // Search query (find by name)
 export async function searchAll(pokemonName: string): Promise<customData[]> {
 
@@ -105,7 +108,7 @@ export async function searchAll(pokemonName: string): Promise<customData[]> {
     }
 }
 
-// Search query (find by name)
+// MongoDB - old query
 export async function allFav(): Promise<customData[]> {
     
     let pokeDataArray: customData[] = [];
@@ -136,7 +139,7 @@ export async function allFav(): Promise<customData[]> {
     }
 }
 
-// Search query (find by name) for updating favorite pokemon.
+// MongoDB - old query
 export async function updateFavorite(pokemonName: string) {
     try {
         
@@ -160,7 +163,7 @@ export async function updateFavorite(pokemonName: string) {
     }
 }
 
-// Search query (find by name) for updating favorite pokemon.
+// MongoDB - old query
 export async function updateFavoriteFalse(pokemonName: string) {
     try {
         await client.connect();

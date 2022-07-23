@@ -4,6 +4,7 @@ import { uri } from './server'
 
 const client = new MongoClient(uri)
 
+// Generates pokemon data randomly
 async function main() {
     try {
 
@@ -48,4 +49,4 @@ async function insertDoc(client: MongoClient, tmpPokemon: customData) {
     await client.db("pokeDataBase").collection("pokeData").insertOne(tmpPokemon)
 }
 
-main()
+main();

@@ -73,6 +73,7 @@ async function searchRender() {
     }
 }
 
+// TODO: Implement
 async function showFavorites() {
     const parentElement = document.getElementById("pokemon-container") as HTMLElement;
     let allPokemonContainer = document.getElementById("all-pokemon-container") as HTMLElement
@@ -201,6 +202,7 @@ window.addEventListener("load", async () => {
 
     let pokemonArray: Pokemon[] = [];
 
+    // Return data from Postgres API
     const response: any = await axios.get(`${originLink}/data-pg?page=${currentPage}`);
     const rawDataArray = response.data;
     

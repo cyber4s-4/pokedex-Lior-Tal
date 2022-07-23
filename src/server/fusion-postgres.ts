@@ -16,7 +16,7 @@ const pgClient = new Pool({
     }
 });
 
-
+// postgres first query (table)
 const createTableQuery = ` 
 CREATE TABLE "pokemon" (
     id TEXT NOT NULL PRIMARY KEY,
@@ -35,6 +35,7 @@ pgClient.query(createTableQuery, (err, res) => {
 
 fusion();
 
+// Randomizes pokemon data 10,000 times
 async function fusion() {
     try {
 
@@ -65,7 +66,7 @@ async function fusion() {
                         types: pokeFusionArray[Math.round(Math.random())].types,
                         abilities: pokeFusionArray[Math.round(Math.random())].abilities,
                     }
-                    
+                    // Sends generated pokemon data to postgres DB
                     insertPokemon(tmpPokemon, i);
 
                 })
@@ -82,7 +83,7 @@ async function fusion() {
 }
 
 
-// Gets array of Agent objects, creates database, inserts agents
+// Inserts the pokemon data to our postgres DB
 function insertPokemon(pokemonData: customData, id: number) {
 
     let insertQuery =

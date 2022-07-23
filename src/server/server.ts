@@ -18,6 +18,11 @@ const DATABASE_URL = `postgres://sugivyejdjefcn:12ae2f93e7ac3f60b980821d5e04da5d
 app.use(json());
 app.use(cors())
 
+/**
+ * 'heroku-server.ts' is a modified version of 'server.ts'
+ * compatible for heroku with specific config instead of local browserSync/gulp
+ */
+
 const pgClient = new Pool({
     connectionString: DATABASE_URL
     ,
@@ -26,6 +31,7 @@ const pgClient = new Pool({
     }
 });
 
+// Gets 20 pokemons in specific page (Postgres)
 app.get("/data-pg", async (req: Request, res: Response) => {
     const pageNumber = parseInt(req.query.page as string);
 
@@ -41,6 +47,7 @@ app.get("/data-pg", async (req: Request, res: Response) => {
     }
 });
 
+// Gets pokemon by name (Postgres)
 app.get("/search-pg", async (req: Request, res: Response) => {
     const searchQuery = req.query.name as string;
 
@@ -54,6 +61,7 @@ app.get("/search-pg", async (req: Request, res: Response) => {
     })
 });
 
+// TODO: Implement
 app.get("/allFav", async (req: Request, res: Response) => {
     await allFav().then((pokeDataArray) => {
         if (pokeDataArray.length === 0) {

@@ -53,7 +53,7 @@ export async function randomPagePokemonArray() {
     
     let randomPage = Math.floor(Math.random() * MAX_PAGE_NUM);
 
-    // Acquiring random 20 pokemons from API
+    // Acquiring random 20 pokemons from API (Postgres)
     const response = await axios.get(`${originLink}/data-pg?page=${randomPage}`);
     const rawDataArray = response.data;
     
@@ -61,12 +61,6 @@ export async function randomPagePokemonArray() {
         const pokemonData: customData = result.pokedata;
         pokemonArray.push(new Pokemon(pokemonData.name, pokemonData));
     }
-
-    // let data: customData[] = response.data;
-    
-    // for (let pokemonData of data) {
-    //     pokemonArray.push(new Pokemon(pokemonData.name, pokemonData));
-    // }
 
     return pokemonArray;
 }
