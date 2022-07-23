@@ -3,7 +3,8 @@ import { Request, Response } from "express";
 import { json } from "body-parser";
 import { customData } from "../client/Typescript/pokeData";
 import { MongoClient } from 'mongodb';
-import { main, searchAll, allFav, updateFavorite, updateFavoriteFalse } from './queries';
+import { main, searchAll, allFav, updateFavorite, updateFavoriteFalse, getPage, getPokemonByName } from './queries';
+import { Pool } from "pg";
 
 export const uri = 'mongodb+srv://cyber4s:pokemondata@cluster0.dw27scw.mongodb.net/?retryWrites=true&w=majority';
 const cors = require("cors");
@@ -11,7 +12,8 @@ const fs = require("fs");
 const path = require("path");
 const app = express();
 
-const MAX_PAGE_NUM = 5000;
+const MAX_PAGE_NUM = 500;
+const DATABASE_URL = `postgres://sugivyejdjefcn:12ae2f93e7ac3f60b980821d5e04da5d61d9cc4fc463071f19b21f18945ed1cd@ec2-3-223-169-166.compute-1.amazonaws.com:5432/d4e5r4bgdqcmdo`;
 const root: string = path.join(process.cwd(), 'dist');
 
 app.use(express.static(root));
@@ -19,39 +21,47 @@ app.use(express.static(root));
 app.use(json());
 app.use(cors());
 
-// Data request endpoint for pagination on client side
-app.get("/data", async (req: Request, res: Response) => {
-    const page = parseInt(req.query.page as string);
+const pgClient = new Pool({
+    connectionString: DATABASE_URL
+    ,
+    ssl: {
+        rejectUnauthorized: false
+    }
+});
 
-    if (page > 0 && page < MAX_PAGE_NUM) {
-        await main(page).then((pokeDataArray) => {
+app.get("/data-pg", async (req: Request, res: Response) => {
+    const pageNumber = parseInt(req.query.page as string);
+
+    if (pageNumber > 0 && pageNumber < MAX_PAGE_NUM) {
+        console.log("Started query, page number:" + pageNumber);
+        await getPage(pgClient, pageNumber).then((pokeDataArray) => {
             res.status(200).send(pokeDataArray);
         })
     }
 
-    else if (page < 1 || page > MAX_PAGE_NUM) {
+    else if (pageNumber < 1 || pageNumber > MAX_PAGE_NUM) {
         res.status(404).send('Not found');
     }
 });
 
-// Search endpoint for finding pokemon by name
-app.get("/search", async (req: Request, res: Response) => {
+app.get("/search-pg", async (req: Request, res: Response) => {
     const searchQuery = req.query.name as string;
 
-    await searchAll(searchQuery).then((pokeDataArray)=>{
-        if (pokeDataArray.length===0) {
-            res.status(200).send('Not found')
-        } else if (pokeDataArray.length>0) {
+    await getPokemonByName(pgClient, searchQuery).then((pokeDataArray) => {
+        console.log(pokeDataArray);
+        if (pokeDataArray.length === 0) {
+            res.status(200).send('Not found');
+        } else if (pokeDataArray.length > 0) {
             res.status(200).send(pokeDataArray[0]);
         }
     })
-})
+});
 
 app.get("/allFav", async (req: Request, res: Response) => {
-    await allFav().then((pokeDataArray)=>{
-        if (pokeDataArray.length===0) {
+    await allFav().then((pokeDataArray) => {
+        if (pokeDataArray.length === 0) {
             res.status(200).send('Not found')
-        } else if (pokeDataArray.length>0) {
+        } else if (pokeDataArray.length > 0) {
             res.status(200).send(pokeDataArray);
         }
     })

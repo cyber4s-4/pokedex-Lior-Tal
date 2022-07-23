@@ -1,4 +1,7 @@
-/**
+/** 
+ * ! DEPRECATED - no longer in use since V3 (DBMS integration)
+ * ! Exists for future research purposes
+ * 
  * Script that fetches Pokemons from pokemon API 
  * The data is then saved as JSON on the pokeServer database
  * Only wanted information is taken from API (interface customData)

@@ -8,6 +8,7 @@ import { randomPagePokemonArray } from "./app";
 import { checkDataExists, getData } from "./localStorage";
 import { PokeData } from "./pokeData";
 import axios from "axios";
+import { raw } from "body-parser";
 
 let originLink: string;
 // Acquire API link (gulp/heroku instance)
@@ -16,7 +17,7 @@ if (window.location.origin.includes("localhost")) {
 } else originLink = window.location.origin;
 
 // Maximum page number for discover segment (Pokemons on DB divided by 20 per page)
-const MAX_PAGE_NUM = 5000;
+const MAX_PAGE_NUM = 500;
 
 /**
  * Searches for a match on the database for the user's input
@@ -45,14 +46,12 @@ async function searchRender() {
     let pokemonContainer = document.getElementById("pokemon-container") as HTMLElement
 
     // Making a search request through the API
-    const searchResponse = await axios.get(`${originLink}/search?name=${text.toLowerCase()}`);
+    const searchResponse: any = await axios.get(`${originLink}/search-pg?name=${text.toLowerCase()}`);
 
-    let data: customData | string = searchResponse.data;
-
-    console.log(data);
+    let data: any;
 
     // Error - not found
-    if (data === "Not found") {
+    if (searchResponse.data === "Not found") {
         inputEl.value = "";
         alert("no such pokemon, try again!");
 
@@ -62,7 +61,7 @@ async function searchRender() {
 
     // Found pokemon on database, creates Pokemon object, renders it
     else {
-        data = data as customData;
+        data = searchResponse.data.pokedata as customData;
         const foundPokemon: Pokemon = new Pokemon(data.name, data)
         // Renders at given parentElement
         inputEl.value = "";
@@ -202,10 +201,11 @@ window.addEventListener("load", async () => {
 
     let pokemonArray: Pokemon[] = [];
 
-    const response = await axios.get(`${originLink}/data?page=${currentPage}`);
-    let data: customData[] = response.data;
-    console.log(data);
-    for (let pokemonData of data) {
+    const response: any = await axios.get(`${originLink}/data-pg?page=${currentPage}`);
+    const rawDataArray = response.data;
+    
+    for (let result of rawDataArray) {
+        const pokemonData: customData = result.pokedata;
         pokemonArray.push(new Pokemon(pokemonData.name, pokemonData));
     }
 

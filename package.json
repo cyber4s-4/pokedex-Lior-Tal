@@ -5,16 +5,20 @@
         "deploy": "gulp deploy",
         "lint": "eslint ./src --ext .ts",
         "jest": "jest",
+        "server":"nodemon ./src/server/server.ts",
         "lint-fix": "eslint ./src --ext .ts --fix",
         "create-pokemon-json": "ts-node ./src/server/fetchApi.ts",
-        "fusion": "ts-node ./src/server/fusion.ts"
+        "fusion-mongo": "ts-node ./src/server/fusion.ts",
+        "fusion-pg": "ts-node ./src/server/fusion-postgres.ts"
     },
     "dependencies": {
+        "@types/pg": "8.6.5",
         "axios": "^0.27.2",
         "body-parser": "^1.20.0",
         "cors": "^2.8.5",
         "express": "^4.18.1",
         "mongodb": "^4.8.0",
+        "pg": "8.7.3",
         "webpack": "^5.73.0"
     },
     "devDependencies": {

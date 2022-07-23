@@ -1,20 +1,55 @@
+import { Client, Pool } from 'pg';
 import { customData } from "../client/Typescript/pokeData";
 import { MongoClient } from 'mongodb';
 
 export const uri = 'mongodb+srv://cyber4s:pokemondata@cluster0.dw27scw.mongodb.net/?retryWrites=true&w=majority';
 const client = new MongoClient(uri);
+const DATABASE_URL = `postgres://sugivyejdjefcn:12ae2f93e7ac3f60b980821d5e04da5d61d9cc4fc463071f19b21f18945ed1cd@ec2-3-223-169-166.compute-1.amazonaws.com:5432/d4e5r4bgdqcmdo`;
 const POKEMON_PAGE_LIMIT = 20;
 
-// Global scope array - resets upon request and returned to client
+// Pagination query - returns 20 pokemons
 
-// Pagination query - returns 20 pokemon data JSON
+export const getPage = 
+async (myClient: Pool, pageNumber: number): Promise<customData[]> => new Promise((resolve, reject)=>{
+    
+    // Number of rows to skip
+    const skipCount = (pageNumber - 1) * POKEMON_PAGE_LIMIT;
+    
+    const query = `
+    SELECT pokedata FROM pokemon
+    LIMIT ${POKEMON_PAGE_LIMIT}
+    OFFSET ${skipCount};
+    `
+    
+    myClient.query(query, async (error: Error, result: any) => {
+        if (error) reject(error);
+        else resolve(result.rows);
+    });
+});
+
+// Find pokemon by name
+export const getPokemonByName = 
+async (myClient: Pool, name: string): Promise<any> => new Promise((resolve, reject)=>{
+    
+    const query = `
+    SELECT pokedata FROM pokemon
+    WHERE
+    pokedata->>'name' = '${name}'
+    `
+
+    myClient.query(query, async (error: Error, result: any) => {
+        if (error) reject(error);
+        else resolve(result.rows);
+    });
+})
+
 export async function main(pageNumber: number): Promise<customData[]> {
 
     let pokeDataArray: customData[] = [];
     
     try {
         
-
+        
         await client.connect()
 
         // Number of documents to skip

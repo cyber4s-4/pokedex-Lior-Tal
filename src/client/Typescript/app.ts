@@ -2,7 +2,7 @@ import { Pokemon, customData, sortPokemonData, surpriseMe } from "./pokemon";
 import { PokeData } from "./pokeData";
 import axios from "axios";
 
-const MAX_PAGE_NUM = 5000;
+const MAX_PAGE_NUM = 500;
 
 let originLink: string;
 // Acquire API link (gulp/heroku instance)
@@ -54,12 +54,19 @@ export async function randomPagePokemonArray() {
     let randomPage = Math.floor(Math.random() * MAX_PAGE_NUM);
 
     // Acquiring random 20 pokemons from API
-    const response = await axios.get(`${originLink}/data?page=${randomPage}`);
-    let data: customData[] = response.data;
+    const response = await axios.get(`${originLink}/data-pg?page=${randomPage}`);
+    const rawDataArray = response.data;
     
-    for (let pokemonData of data) {
+    for (let result of rawDataArray) {
+        const pokemonData: customData = result.pokedata;
         pokemonArray.push(new Pokemon(pokemonData.name, pokemonData));
     }
+
+    // let data: customData[] = response.data;
+    
+    // for (let pokemonData of data) {
+    //     pokemonArray.push(new Pokemon(pokemonData.name, pokemonData));
+    // }
 
     return pokemonArray;
 }
