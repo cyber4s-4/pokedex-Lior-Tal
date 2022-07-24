@@ -4,7 +4,6 @@ import { MongoClient } from 'mongodb';
 
 export const uri = 'mongodb+srv://cyber4s:pokemondata@cluster0.dw27scw.mongodb.net/?retryWrites=true&w=majority';
 const client = new MongoClient(uri);
-const DATABASE_URL = `postgres://sugivyejdjefcn:12ae2f93e7ac3f60b980821d5e04da5d61d9cc4fc463071f19b21f18945ed1cd@ec2-3-223-169-166.compute-1.amazonaws.com:5432/d4e5r4bgdqcmdo`;
 const POKEMON_PAGE_LIMIT = 20;
 
 
@@ -18,10 +17,10 @@ async (myClient: Pool, pageNumber: number): Promise<customData[]> => new Promise
     const query = `
     SELECT pokedata FROM pokemon
     LIMIT ${POKEMON_PAGE_LIMIT}
-    OFFSET ${skipCount};
+    OFFSET $1;
     `
     
-    myClient.query(query, async (error: Error, result: any) => {
+    myClient.query(query, [`${skipCount}`], async (error: Error, result: any) => {
         if (error) reject(error);
         else resolve(result.rows);
     });
@@ -34,10 +33,10 @@ async (myClient: Pool, name: string): Promise<any> => new Promise((resolve, reje
     const query = `
     SELECT pokedata FROM pokemon
     WHERE
-    pokedata->>'name' = '${name}'
+    pokedata->>'name' = $1
     `
 
-    myClient.query(query, async (error: Error, result: any) => {
+    myClient.query(query,[`${name}`], async (error: Error, result: any) => {
         if (error) reject(error);
         else resolve(result.rows);
     });

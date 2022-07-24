@@ -44,7 +44,7 @@ app.get("/data-pg", async (req: Request, res: Response) => {
 
     else if (pageNumber < 1 || pageNumber > MAX_PAGE_NUM) {
         res.status(404).send('Not found');
-    }
+    } else res.status(404);
 });
 
 // Gets pokemon by name (Postgres)
